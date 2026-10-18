@@ -92,7 +92,7 @@
   },
   "questions": {
     "timeHeading": "A quick question first",
-    "timePrompt": "Without looking at a clock: how long do you think the feed was shown for? Give me your best guess in minutes and seconds.",
+    "timePrompt": "Without looking at a clock: how long do you think the feed was shown for? Give me your best guess in seconds.",
     "confidencePrompt": "How confident are you in that estimate?",
     "checkedClockPrompt": "Did you look at a clock or timer at any point while the feed was running? Please answer honestly, it won't affect anything.",
     "quality": {

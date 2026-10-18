@@ -81,8 +81,8 @@ function Footer() {
 /** The header shown while a study is running: nothing but a way out. */
 function StudyHeader({ exitHref }: { exitHref: string }) {
   return (
-    <header className="mx-auto flex w-full max-w-6xl justify-end px-4 pt-4 sm:px-8">
-      <Button asChild variant="outline" size="sm">
+    <header className="fixed top-3 right-3 z-40 sm:top-4 sm:right-4">
+      <Button asChild variant="outline" size="sm" className="bg-background/90 backdrop-blur-sm">
         <a href={exitHref}>
           <XIcon aria-hidden="true" />
           Exit study
@@ -108,7 +108,7 @@ export function Layout({ children, footer = true, exitHref }: { children: ReactN
         Skip to content
       </a>
       {exitHref ? <StudyHeader exitHref={exitHref} /> : <Header />}
-      <main id="main" className="mx-auto w-full max-w-6xl flex-1 px-4 sm:px-8">
+      <main id="main" className={cn("mx-auto w-full max-w-6xl flex-1 px-4 sm:px-8", exitHref && "pt-12")}>
         {children}
       </main>
       {footer && <Footer />}

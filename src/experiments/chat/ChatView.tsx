@@ -109,20 +109,22 @@ function PromptArea({ prompt, onAnswer }: { prompt: Prompt; onAnswer: Props["onA
       const points = Array.from({ length: prompt.points ?? 7 }, (_, i) => String(i + 1));
       return (
         <Question selectionMode="single" onSubmit={({ selectedValues }) => onAnswer(selectedValues[0])} className="bg-card">
-          <QuestionOptions className="gap-2">
-            {points.map((p) => (
-              <QuestionOption key={p} value={p} className="size-11 rounded-full px-0">
-                {p}
-              </QuestionOption>
-            ))}
-          </QuestionOptions>
-          <QuestionDescription className="flex justify-between font-display">
-            <span>1 = {prompt.low}</span>
-            <span>
-              {points.length} = {prompt.high}
-            </span>
-          </QuestionDescription>
-          <QuestionActions>
+          <div className="mx-auto w-fit space-y-3">
+            <QuestionOptions className="justify-center gap-2">
+              {points.map((p) => (
+                <QuestionOption key={p} value={p} className="size-11 rounded-full px-0">
+                  {p}
+                </QuestionOption>
+              ))}
+            </QuestionOptions>
+            <QuestionDescription className="flex justify-between gap-6 font-display">
+              <span>1 = {prompt.low}</span>
+              <span>
+                {points.length} = {prompt.high}
+              </span>
+            </QuestionDescription>
+          </div>
+          <QuestionActions className="justify-center">
             <QuestionSubmit>{prompt.submit ?? "Send"}</QuestionSubmit>
           </QuestionActions>
         </Question>
@@ -174,6 +176,13 @@ function ConsentPrompt({ prompt, onAnswer }: { prompt: Extract<Prompt, { kind: "
   );
 }
 
+/** Turns a number of seconds into "1 min 30 sec". */
+const minutesAndSeconds = (total: number) => {
+  const m = Math.floor(total / 60);
+  const sec = total % 60;
+  return `${m} min${sec ? ` ${sec} sec` : ""}`;
+};
+
 function DurationPrompt({
   submit,
   onAnswer,
@@ -183,34 +192,42 @@ function DurationPrompt({
   onAnswer: Props["onAnswer"];
   first: React.RefObject<HTMLInputElement>;
 }) {
-  const [minutes, setMinutes] = useState("");
   const [seconds, setSeconds] = useState("");
-  const m = minutes === "" ? 0 : Number(minutes);
-  const s = seconds === "" ? 0 : Number(seconds);
-  const valid = Number.isInteger(m) && Number.isInteger(s) && m >= 0 && s >= 0 && s < 60 && m * 60 + s > 0;
-  const label = [m > 0 && `${m} minute${m === 1 ? "" : "s"}`, s > 0 && `${s} second${s === 1 ? "" : "s"}`]
-    .filter(Boolean)
-    .join(" ");
+  const total = Number(seconds);
+  const valid = seconds !== "" && Number.isInteger(total) && total > 0;
+  const helper = valid && total >= 60 ? minutesAndSeconds(total) : "";
 
   return (
     <form
-      className="flex flex-wrap items-end gap-4 rounded-lg border bg-card p-4"
+      className="space-y-3 rounded-lg border bg-card p-4"
       onSubmit={(e) => {
         e.preventDefault();
-        if (valid) onAnswer(String(m * 60 + s), label);
+        if (valid) onAnswer(String(total), `${total} seconds${helper ? ` (${helper})` : ""}`);
       }}
     >
-      <div className="space-y-2">
-        <Label htmlFor="est-min">Minutes</Label>
-        <Input ref={first} id="est-min" type="number" inputMode="numeric" min={0} max={120} className="h-11 w-24 text-base" value={minutes} onChange={(e) => setMinutes(e.target.value)} />
+      <div className="flex flex-wrap items-end gap-4">
+        <div className="space-y-2">
+          <Label htmlFor="est-sec">Seconds</Label>
+          <Input
+            ref={first}
+            id="est-sec"
+            type="number"
+            inputMode="numeric"
+            min={1}
+            max={7200}
+            className="h-11 w-32 text-base"
+            value={seconds}
+            onChange={(e) => setSeconds(e.target.value)}
+            aria-describedby="est-helper"
+          />
+        </div>
+        <Button type="submit" disabled={!valid}>
+          {submit}
+        </Button>
       </div>
-      <div className="space-y-2">
-        <Label htmlFor="est-sec">Seconds</Label>
-        <Input id="est-sec" type="number" inputMode="numeric" min={0} max={59} className="h-11 w-24 text-base" value={seconds} onChange={(e) => setSeconds(e.target.value)} />
-      </div>
-      <Button type="submit" disabled={!valid}>
-        {submit}
-      </Button>
+      <p id="est-helper" className="min-h-5 font-display text-sm text-muted-foreground" aria-live="polite">
+        {helper && `That's ${helper}.`}
+      </p>
     </form>
   );
 }

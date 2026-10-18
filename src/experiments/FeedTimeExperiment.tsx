@@ -207,11 +207,7 @@ export function FeedTimeExperiment() {
     <>
       <h1 className="sr-only">{config.title}</h1>
       <ChatView entries={chat.entries} typing={chat.typing} prompt={chat.prompt} onAnswer={chat.answer}>
-        {showFeed && (
-          <div className="h-[min(75dvh,760px)]">
-            <Feed durationSeconds={settings.plannedSeconds} pixelsPerSecond={config.scrollPixelsPerSecond} onDone={onFeedDone} />
-          </div>
-        )}
+        {showFeed && <Feed durationSeconds={settings.plannedSeconds} pixelsPerSecond={config.scrollPixelsPerSecond} onDone={onFeedDone} />}
       </ChatView>
     </>
   );

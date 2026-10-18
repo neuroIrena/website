@@ -20,7 +20,7 @@ const formatLikes = (n: number) => n.toLocaleString("en-GB");
 
 /**
  * An Instagram-style feed that scrolls by itself at a constant speed for a fixed time.
- * It fills whatever box it is given. The participant cannot scroll, pause or click anything.
+ * It covers the whole page while it runs. The participant cannot scroll, pause or click anything.
  */
 export function Feed({ durationSeconds, pixelsPerSecond, onDone }: Props) {
   const scroller = useRef<HTMLDivElement>(null);
@@ -30,6 +30,15 @@ export function Feed({ durationSeconds, pixelsPerSecond, onDone }: Props) {
     const needed = Math.ceil((durationSeconds * pixelsPerSecond) / APPROX_CARD_HEIGHT) + 4;
     return Array.from({ length: needed }, (_, i) => ({ ...posts[i % posts.length], key: i }));
   }, [durationSeconds, pixelsPerSecond]);
+
+  // Lock the page behind the feed so nothing else can be scrolled to.
+  useEffect(() => {
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = previous;
+    };
+  }, []);
 
   useEffect(() => {
     const el = scroller.current;
@@ -74,7 +83,7 @@ export function Feed({ durationSeconds, pixelsPerSecond, onDone }: Props) {
   }, [durationSeconds, pixelsPerSecond, items, onDone]);
 
   return (
-    <div className="flex h-full justify-center overflow-hidden rounded-xl border bg-secondary/40" role="region" aria-label="Social media feed, scrolling automatically">
+    <div className="fixed inset-0 z-50 flex justify-center overflow-hidden bg-background" role="region" aria-label="Social media feed, scrolling automatically">
       <div
         ref={scroller}
         className="w-full max-w-[470px] overflow-hidden"
