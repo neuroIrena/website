@@ -36,6 +36,14 @@
       "description": "Curriculum vitae of Irena Arslanova: positions, education and a downloadable PDF."
     },
     {
+      "id": "experiments",
+      "path": "/experiments/",
+      "html": "experiments/index.html",
+      "nav": "Experiments",
+      "title": "Experiments | Dr. Irena Arslanova",
+      "description": "Short online studies on time perception and attention that you can take part in from your own device."
+    },
+    {
       "id": "contact",
       "path": "/contact/",
       "html": "contact/index.html",

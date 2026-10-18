@@ -4,11 +4,12 @@ import media from "@/content/media.json";
 import speaking from "@/content/speaking.json";
 import cv from "@/content/cv.json";
 import site from "@/content/site.json";
+import experiments from "@/content/experiments.json";
 
 export type ResearchItem = (typeof research)[number];
 export type MediaItem = (typeof media)[number];
 
-export { profile, research, media, speaking, cv, site };
+export { profile, research, media, speaking, cv, site, experiments };
 
 const months = [
   "January", "February", "March", "April", "May", "June",

@@ -74,6 +74,18 @@ Quotes from articles go in a > blockquote. Images: ![What the image shows](/imag
 - The page for each post (`research/<name>/index.html`, `media/<name>/index.html`) is generated automatically by `src/lib/posts-build.ts` when the site builds or `npm run dev` starts. Those generated folders are in `.gitignore`. Don't create or edit them by hand.
 - While `npm run dev` is running, editing a post updates the page. A brand-new post file is picked up straight away too; if it isn't, restart `npm run dev`.
 
+## Experiments
+
+Online studies live under `/experiments/`. The list page shows a card for each one; each study has its own page at `/experiments/<slug>/` and is marked `noindex` so it stays out of Google.
+
+- `src/content/experiments.json` is the list of cards. `vite.config.ts` turns each entry into a page (`experiments/<slug>/index.html`), so a new study needs: an entry here, that HTML file (copy an existing one, point the script at `src/pages/experiment-<slug>.tsx`), that page file, and its components.
+- The first study, "Scrolling through time" (`feed-time`), is a retrospective time-estimation task: an Instagram-style feed autoscrolls for a fixed time, then participants estimate how long it lasted. Two conditions, assigned at random: `quality` (told they'll rate the content) and `decision` (told to decide between Greece and Italy). Duration is the control and must stay the same for everyone.
+- All its text (consent sheet, instructions, questions, debrief) is in `src/content/experiments/feed-time.json`; feed posts are in `feed-posts.json`. Code is in `src/experiments/`. Placeholders in square brackets in the consent text (ethics reference, ethics contact, DPO contact, retention period) must be filled by Irena before the study goes live.
+- Feed images in `public/images/feed/` are flat-colour placeholders. Replace them with licensed stock or AI-generated images of the same file names.
+- For testing, add `?condition=decision&seconds=15` to the study address to force a condition and shorten the feed. Such runs are recorded with `testMode: true`.
+- Nothing is saved yet. `src/experiments/save.ts` only logs in the local preview; Supabase goes there later (insert-only table, row-level security, public key only, no IP or personal data).
+- Participant data is research data: don't add new questions or stored fields without checking with Irena that the ethics approval and consent sheet cover them.
+
 ## Writing style
 
 - Plain and human. First person on the home page ("I study...").
