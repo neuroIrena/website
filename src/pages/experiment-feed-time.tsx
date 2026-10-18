@@ -1,4 +1,4 @@
 import { mount } from "@/mount";
 import { FeedTimeExperiment } from "@/experiments/FeedTimeExperiment";
 
-mount(<FeedTimeExperiment />, { footer: false });
+mount(<FeedTimeExperiment />, { footer: false, exitHref: "/experiments/" });

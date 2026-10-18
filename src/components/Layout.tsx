@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import { XIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -77,7 +78,27 @@ function Footer() {
   );
 }
 
-export function Layout({ children, footer = true }: { children: ReactNode; footer?: boolean }) {
+/** The header shown while a study is running: nothing but a way out. */
+function StudyHeader({ exitHref }: { exitHref: string }) {
+  return (
+    <header className="mx-auto flex w-full max-w-6xl justify-end px-4 pt-4 sm:px-8">
+      <Button asChild variant="outline" size="sm">
+        <a href={exitHref}>
+          <XIcon aria-hidden="true" />
+          Exit study
+        </a>
+      </Button>
+    </header>
+  );
+}
+
+export type LayoutOptions = {
+  footer?: boolean;
+  /** When set, the normal header and menu are replaced by a single exit link to this address. */
+  exitHref?: string;
+};
+
+export function Layout({ children, footer = true, exitHref }: { children: ReactNode } & LayoutOptions) {
   return (
     <div className="flex min-h-screen flex-col">
       <a
@@ -86,7 +107,7 @@ export function Layout({ children, footer = true }: { children: ReactNode; foote
       >
         Skip to content
       </a>
-      <Header />
+      {exitHref ? <StudyHeader exitHref={exitHref} /> : <Header />}
       <main id="main" className="mx-auto w-full max-w-6xl flex-1 px-4 sm:px-8">
         {children}
       </main>

@@ -31,16 +31,47 @@ const yesNo = (yes: string, no: string) => ({
   ],
 });
 
-/** A message with a bold heading, for the information sheet sections. */
-const section = (heading: string, body: string) => ({
-  text: body,
-  render: (
-    <>
-      <span className="block font-display font-semibold">{heading}</span>
-      {body}
-    </>
-  ),
-});
+/** The participant information sheet as one message, headings and all. */
+function InformationSheet() {
+  const c = config.consent;
+  return (
+    <div className="space-y-5 rounded-lg border bg-card p-5 sm:p-6">
+      <h2 className="text-2xl font-semibold">{c.heading}</h2>
+      <dl className="grid gap-x-6 gap-y-1 text-base text-muted-foreground sm:grid-cols-[auto_1fr]">
+        <dt className="font-display">Study</dt>
+        <dd>{config.title}</dd>
+        <dt className="font-display">Researcher</dt>
+        <dd>
+          {config.researcher}, {config.institution}
+        </dd>
+        <dt className="font-display">Ethics approval</dt>
+        <dd>{config.ethicsReference}</dd>
+        <dt className="font-display">Version</dt>
+        <dd>{config.version}</dd>
+      </dl>
+      {c.sections.map((s) => (
+        <section key={s.heading}>
+          <h3 className="font-display text-lg font-semibold">{s.heading}</h3>
+          <p className="mt-1">{s.body}</p>
+        </section>
+      ))}
+      <section>
+        <h3 className="font-display text-lg font-semibold">Contacts</h3>
+        <ul className="mt-1 space-y-1">
+          <li>
+            Researcher:{" "}
+            <a href={`mailto:${config.contactEmail}`} className="decoration-primary decoration-2">
+              {config.contactEmail}
+            </a>
+          </li>
+          <li>Ethics committee: {config.ethicsContact}</li>
+          <li>Data Protection Officer: {config.dataProtectionContact}</li>
+          <li>Data retention: {config.retentionYears}</li>
+        </ul>
+      </section>
+    </div>
+  );
+}
 
 export function FeedTimeExperiment() {
   const [settings] = useState(readSettings);
@@ -68,6 +99,7 @@ export function FeedTimeExperiment() {
     const { condition } = settings;
     const c = config.consent;
     const q = config.questions;
+    const goal = config.instructions.conditions[condition].goal;
 
     async function run() {
       // Welcome and checks
@@ -78,25 +110,11 @@ export function FeedTimeExperiment() {
       }
       mark("consent");
 
-      // Information sheet, one section per message
-      await say([c.intro]);
-      await say([
-        section("Study", `${config.title}. Researcher: ${config.researcher}, ${config.institution}. Ethics approval: ${config.ethicsReference}. ${config.version}.`),
-        ...c.sections.map((s) => section(s.heading, s.body)),
-        section(
-          "Contacts",
-          `Researcher: ${config.contactEmail}. Ethics committee: ${config.ethicsContact}. Data Protection Officer: ${config.dataProtectionContact}. Data retention: ${config.retentionYears}.`,
-        ),
-      ]);
-
-      // Consent, one statement at a time
-      await say([c.afterSections]);
-      for (const statement of c.statements) {
-        await say([statement]);
-        if ((await ask(yesNo(c.agree, c.decline))) === "no") {
-          await say([c.declined]);
-          return;
-        }
+      // Information sheet, then the consent checklist
+      await say([c.intro, { text: c.sections.map((s) => s.body).join(" "), render: <InformationSheet /> }]);
+      if ((await ask({ kind: "consent", statements: c.statements, agree: c.button, decline: c.decline })) === "no") {
+        await say([c.declined]);
+        return;
       }
       mark("instructions");
 
@@ -104,11 +122,11 @@ export function FeedTimeExperiment() {
       await say([
         ...config.instructions.common,
         {
-          text: config.instructions.conditions[condition].goal,
+          text: goal,
           render: (
-            <span className="block rounded-lg border border-primary/40 bg-background px-4 py-3">
+            <span className="block rounded-lg border border-primary/40 bg-card px-4 py-3">
               <span className="block font-display text-sm text-muted-foreground">Your task</span>
-              {config.instructions.conditions[condition].goal}
+              {goal}
             </span>
           ),
         },
@@ -172,10 +190,10 @@ export function FeedTimeExperiment() {
       };
       void saveResponse(response);
 
-      // Debrief
+      // Debrief: one message, then the sign-off
+      const label = config.instructions.conditions[condition].label;
       await say([
-        ...config.debrief.paragraphs,
-        `You were in the "${config.instructions.conditions[condition].label}" group.`,
+        [...config.debrief.paragraphs, `You were in the "${label}" group.`].join("\n\n"),
         config.debrief.sharePrompt,
       ]);
     }
@@ -186,13 +204,15 @@ export function FeedTimeExperiment() {
   }, []);
 
   return (
-    <div className="flex h-[calc(100dvh-6.5rem)] min-h-[440px] flex-col py-4 sm:h-[calc(100dvh-7.5rem)]">
+    <>
       <h1 className="sr-only">{config.title}</h1>
-      {showFeed ? (
-        <Feed durationSeconds={settings.plannedSeconds} pixelsPerSecond={config.scrollPixelsPerSecond} onDone={onFeedDone} />
-      ) : (
-        <ChatView entries={chat.entries} typing={chat.typing} prompt={chat.prompt} onAnswer={chat.answer} />
-      )}
-    </div>
+      <ChatView entries={chat.entries} typing={chat.typing} prompt={chat.prompt} onAnswer={chat.answer}>
+        {showFeed && (
+          <div className="h-[min(75dvh,760px)]">
+            <Feed durationSeconds={settings.plannedSeconds} pixelsPerSecond={config.scrollPixelsPerSecond} onDone={onFeedDone} />
+          </div>
+        )}
+      </ChatView>
+    </>
   );
 }

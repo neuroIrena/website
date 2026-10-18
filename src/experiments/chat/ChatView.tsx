@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
+import type { ReactNode } from "react";
 
-import { Conversation, ConversationContent, ConversationScrollButton } from "@/components/ai-elements/conversation";
 import { Message, MessageContent } from "@/components/ai-elements/message";
 import {
   Question,
@@ -11,9 +11,9 @@ import {
   QuestionSubmit,
 } from "@/components/ai-elements/question";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { profile } from "@/lib/content";
 import type { Entry, Prompt } from "./useConversation";
 
 type Props = {
@@ -21,51 +21,40 @@ type Props = {
   typing: boolean;
   prompt: Prompt | null;
   onAnswer: (value: string, label?: string) => void;
+  /** Rendered after the transcript, in place of a prompt (the feed). */
+  children?: ReactNode;
 };
 
-/** The transcript plus whatever the participant is being asked right now. */
-export function ChatView({ entries, typing, prompt, onAnswer }: Props) {
-  return (
-    <div className="flex h-full flex-col">
-      <Conversation className="rounded-xl border bg-card">
-        <ConversationContent className="gap-5 px-4 py-6 sm:px-6" aria-live="polite">
-          {entries.map((e) =>
-            e.from === "assistant" ? (
-              <div key={e.id} className="flex gap-3">
-                <Avatar />
-                <Message from="assistant" className="pt-1">
-                  <MessageContent className="text-lg leading-relaxed">{e.content}</MessageContent>
-                </Message>
-              </div>
-            ) : (
-              <Message key={e.id} from="user">
-                <MessageContent className="text-lg leading-relaxed">{e.content}</MessageContent>
-              </Message>
-            ),
-          )}
-          {typing && (
-            <div className="flex gap-3">
-              <Avatar />
-              <div className="flex h-8 items-center gap-1 pl-1" aria-label="Typing">
-                <span className="typing-dot size-2 rounded-full bg-muted-foreground" />
-                <span className="typing-dot size-2 rounded-full bg-muted-foreground" />
-                <span className="typing-dot size-2 rounded-full bg-muted-foreground" />
-              </div>
-            </div>
-          )}
-        </ConversationContent>
-        <ConversationScrollButton aria-label="Scroll to the latest message" />
-      </Conversation>
-      <div className="min-h-24 pt-4">{prompt && !typing && <PromptArea prompt={prompt} onAnswer={onAnswer} />}</div>
-    </div>
-  );
-}
+/**
+ * The transcript, with whatever the participant is being asked right now as its last item.
+ * It is part of the page: the window scrolls, and follows the newest item.
+ */
+export function ChatView({ entries, typing, prompt, onAnswer, children }: Props) {
+  const end = useRef<HTMLDivElement>(null);
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-function Avatar() {
+  useEffect(() => {
+    end.current?.scrollIntoView({ block: "end", behavior: reduced ? "auto" : "smooth" });
+  }, [entries.length, typing, prompt, children, reduced]);
+
   return (
-    <span className="mt-1 flex size-8 shrink-0 items-center justify-center overflow-hidden rounded-full bg-secondary">
-      <img src={profile.logo} alt="" className="size-6 object-contain" />
-    </span>
+    <div className="mx-auto flex max-w-2xl flex-col gap-6 py-8" aria-live="polite">
+      {entries.map((e) => (
+        <Message key={e.id} from={e.from} className={e.from === "assistant" ? "max-w-full" : undefined}>
+          <MessageContent className="text-lg leading-relaxed">{e.content}</MessageContent>
+        </Message>
+      ))}
+      {typing && (
+        <div className="flex h-7 items-center gap-1" aria-label="Typing">
+          <span className="typing-dot size-2 rounded-full bg-muted-foreground" />
+          <span className="typing-dot size-2 rounded-full bg-muted-foreground" />
+          <span className="typing-dot size-2 rounded-full bg-muted-foreground" />
+        </div>
+      )}
+      {prompt && !typing && <PromptArea prompt={prompt} onAnswer={onAnswer} />}
+      {children}
+      <div ref={end} className="h-px scroll-mb-8" aria-hidden="true" />
+    </div>
   );
 }
 
@@ -78,7 +67,7 @@ function PromptArea({ prompt, onAnswer }: { prompt: Prompt; onAnswer: Props["onA
   switch (prompt.kind) {
     case "buttons":
       return (
-        <div className="flex flex-wrap gap-3">
+        <div className="flex flex-wrap justify-end gap-3">
           {prompt.options.map((o, i) => (
             <Button
               key={o.value}
@@ -93,17 +82,17 @@ function PromptArea({ prompt, onAnswer }: { prompt: Prompt; onAnswer: Props["onA
       );
     case "action":
       return (
-        <Button ref={first as React.RefObject<HTMLButtonElement>} onClick={() => onAnswer(prompt.label)}>
-          {prompt.label}
-        </Button>
+        <div className="flex justify-end">
+          <Button ref={first as React.RefObject<HTMLButtonElement>} onClick={() => onAnswer(prompt.label)}>
+            {prompt.label}
+          </Button>
+        </div>
       );
+    case "consent":
+      return <ConsentPrompt prompt={prompt} onAnswer={onAnswer} />;
     case "choice":
       return (
-        <Question
-          selectionMode="single"
-          onSubmit={({ selectedValues }) => onAnswer(selectedValues[0])}
-          className="bg-card"
-        >
+        <Question selectionMode="single" onSubmit={({ selectedValues }) => onAnswer(selectedValues[0])} className="bg-card">
           <QuestionOptions>
             {prompt.options.map((o) => (
               <QuestionOption key={o} value={o} className="rounded-full px-5">
@@ -119,11 +108,7 @@ function PromptArea({ prompt, onAnswer }: { prompt: Prompt; onAnswer: Props["onA
     case "scale": {
       const points = Array.from({ length: prompt.points ?? 7 }, (_, i) => String(i + 1));
       return (
-        <Question
-          selectionMode="single"
-          onSubmit={({ selectedValues }) => onAnswer(selectedValues[0])}
-          className="bg-card"
-        >
+        <Question selectionMode="single" onSubmit={({ selectedValues }) => onAnswer(selectedValues[0])} className="bg-card">
           <QuestionOptions className="gap-2">
             {points.map((p) => (
               <QuestionOption key={p} value={p} className="size-11 rounded-full px-0">
@@ -146,6 +131,47 @@ function PromptArea({ prompt, onAnswer }: { prompt: Prompt; onAnswer: Props["onA
     case "duration":
       return <DurationPrompt submit={prompt.submit ?? "Send"} onAnswer={onAnswer} first={first as React.RefObject<HTMLInputElement>} />;
   }
+}
+
+function ConsentPrompt({ prompt, onAnswer }: { prompt: Extract<Prompt, { kind: "consent" }>; onAnswer: Props["onAnswer"] }) {
+  const [ticked, setTicked] = useState<boolean[]>(() => prompt.statements.map(() => false));
+  const all = ticked.every(Boolean);
+  return (
+    <form
+      className="space-y-5 rounded-lg border bg-card p-4 sm:p-5"
+      onSubmit={(e) => {
+        e.preventDefault();
+        if (all) onAnswer("yes", prompt.agree);
+      }}
+    >
+      <ul className="space-y-4">
+        {prompt.statements.map((text, i) => {
+          const id = `consent-${i}`;
+          return (
+            <li key={id} className="flex items-start gap-3">
+              <Checkbox
+                id={id}
+                checked={ticked[i]}
+                onCheckedChange={(v) => setTicked((t) => t.map((x, j) => (j === i ? v === true : x)))}
+                className="mt-1.5 size-5"
+              />
+              <Label htmlFor={id} className="text-base leading-relaxed font-normal">
+                {text}
+              </Label>
+            </li>
+          );
+        })}
+      </ul>
+      <div className="flex flex-wrap justify-end gap-3">
+        <Button type="button" variant="outline" onClick={() => onAnswer("no", prompt.decline)}>
+          {prompt.decline}
+        </Button>
+        <Button type="submit" disabled={!all}>
+          {prompt.agree}
+        </Button>
+      </div>
+    </form>
+  );
 }
 
 function DurationPrompt({

@@ -14,9 +14,7 @@
   "version": "Information sheet version 0.1, draft October 2026",
   "landing": {
     "messages": [
-      "Hi, and thanks for stopping by. This is a short study about how people experience social media content. It takes about three minutes.",
-      "You'll watch a feed of posts for a short while and then I'll ask you a few questions. Nothing personal is collected.",
-      "Before we start, three quick checks: you are 18 or older, you have a few minutes without interruptions, and any clocks (including your phone) are out of sight. Shall we go on?"
+      "Hi, and thanks for stopping by. This is a short study about how people experience social media content. It takes about three minutes: you'll watch a feed of posts for a short while and then answer a few questions. Nothing personal is collected.\n\nBefore we start, three quick checks: you are 18 or older, you have a few minutes without interruptions, and any clocks (including your phone) are out of sight. Shall we go on?"
     ],
     "yes": "Yes, let's go",
     "no": "Not right now"
@@ -70,16 +68,14 @@
       "I agree to take part in this study."
     ],
     "button": "I consent, continue",
-    "intro": "First, the formal part. I'll go through the participant information one section at a time. Take your time, and feel free to scroll back up to re-read anything.",
-    "afterSections": "That's all the information. Now I need you to confirm a few statements, one at a time. Tap Agree for each one, or Decline if you'd rather not take part.",
+    "intro": "First, the formal part. Here is the participant information sheet. Please read it, then tick the statements underneath to confirm you agree. You can scroll back up to it at any time.",
     "agree": "I agree",
-    "decline": "I'd rather not",
-    "declined": "No problem at all, thanks for considering it. Nothing has been recorded. You can close this page or go back to the website using the link at the top."
+    "decline": "I'd rather not take part",
+    "declined": "No problem at all, thanks for considering it. Nothing has been recorded. You can use the Exit button at the top to go back to the website."
   },
   "instructions": {
     "common": [
-      "On the next screen you will see a social media feed, a bit like Instagram. It will scroll on its own and you cannot pause it or interact with it.",
-      "Just watch it as you normally would. Please stay on this page, keep any clocks out of sight, and don't look away until it finishes."
+      "Thank you. Here's what happens next.\n\nIn a moment you will see a social media feed, a bit like Instagram. It will scroll on its own and you cannot pause it or interact with it. Just watch it as you normally would. Please stay on this page, keep any clocks out of sight, and don't look away until it finishes."
     ],
     "conditions": {
       "quality": {
@@ -123,7 +119,7 @@
     "engagementLow": "Not at all",
     "engagementHigh": "Completely",
     "button": "Submit answers",
-    "afterFeed": "That's the end of the feed. Thanks for watching.",
+    "afterFeed": "That's the end of the feed, thanks for watching.",
     "send": "Send"
   },
   "debrief": {
@@ -135,7 +131,7 @@
       "Your data are completely anonymous, so they cannot be traced back to you, but for the same reason they cannot be withdrawn now that they have been submitted. If you have any questions or would like to know the results when the study is finished, you are welcome to email the researcher.",
       "If you know other people who might take part, please don't tell them about the time question, so that their experience is the same as yours was."
     ],
-    "sharePrompt": "Thanks again for your time. You can close this page now, or head back to the website using the link at the top."
+    "sharePrompt": "Thanks again for your time. You can close this page now, or use the Exit button at the top to go back to the website."
   },
   "assistantName": "Study assistant"
 }

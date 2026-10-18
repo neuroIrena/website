@@ -4,17 +4,17 @@ import "@fontsource-variable/bricolage-grotesque";
 import "@fontsource-variable/newsreader";
 import "./styles.css";
 
-import { Layout } from "@/components/Layout";
+import { Layout, type LayoutOptions } from "@/components/Layout";
 
 const app = window as Window & { __root?: Root };
 
 /** Renders a page inside the shared header and footer. */
-export function mount(page: ReactNode, { footer = true }: { footer?: boolean } = {}) {
+export function mount(page: ReactNode, options: LayoutOptions = {}) {
   // Reuse the root so the dev server's live reload doesn't create a second one.
   app.__root ??= createRoot(document.getElementById("root")!);
   app.__root.render(
     <StrictMode>
-      <Layout footer={footer}>{page}</Layout>
+      <Layout {...options}>{page}</Layout>
     </StrictMode>,
   );
 }
