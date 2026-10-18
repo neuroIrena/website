@@ -1,7 +1,7 @@
 {
   "title": "Scrolling through time",
   "shortTitle": "Social media feed study",
-  "durationSeconds": 45,
+  "durationSeconds": 120,
   "scroll": {
     "mode": "stepped",
     "dwellSeconds": [
@@ -28,7 +28,7 @@
   "version": "Information sheet version 0.1, draft October 2026",
   "landing": {
     "messages": [
-      "Hi, and thanks for stopping by. This is a short study about how people experience social media content. It takes about three minutes: you'll watch a feed of posts for a short while and then answer a few questions. Nothing personal is collected.\n\nBefore we start, three quick checks: you are 18 or older, you have a few minutes without interruptions, and any clocks (including your phone) are out of sight. Shall we go on?"
+      "Hi, and thanks for stopping by. This is a short study about how people experience social media content. It takes about five minutes: you'll watch a feed of posts for a short while and then answer a few questions. Nothing personal is collected.\n\nBefore we start, three quick checks: you are 18 or older, you have a few minutes without interruptions, and any clocks (including your phone) are out of sight. Shall we go on?"
     ],
     "yes": "Yes, let's go",
     "no": "Not right now"

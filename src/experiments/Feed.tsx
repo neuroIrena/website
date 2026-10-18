@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef } from "react";
 import { BookmarkIcon, HeartIcon, MapPinIcon, MessageCircleIcon, SendIcon } from "lucide-react";
 
+import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import posts from "@/content/experiments/feed-posts.json";
 import type { FeedResult, ScrollSettings } from "./types";
@@ -149,7 +150,15 @@ function FeedPost({ post }: { post: Post }) {
         <span className="size-8 shrink-0 rounded-full bg-primary/70" aria-hidden="true" />
         <span className="font-display text-sm font-semibold">{post.user}</span>
       </div>
-      <img src={post.image} alt="" width={800} height={800} className="aspect-square w-full bg-muted object-cover" />
+      <div className="relative">
+        <img src={post.image} alt="" width={800} height={800} className="aspect-square w-full bg-muted object-cover" />
+        {"location" in post && post.location && (
+          <Badge className="absolute bottom-3 left-3 gap-1 rounded-full bg-background/85 px-3 py-1.5 font-display text-sm font-medium text-foreground backdrop-blur-sm">
+            <MapPinIcon className="size-4 text-primary" aria-hidden="true" />
+            {post.location}
+          </Badge>
+        )}
+      </div>
       <div className="flex items-center gap-4 px-4 pt-3 text-foreground">
         <HeartIcon className="size-6" aria-hidden="true" />
         <MessageCircleIcon className="size-6" aria-hidden="true" />
@@ -158,12 +167,6 @@ function FeedPost({ post }: { post: Post }) {
       </div>
       <div className="px-4 pt-2 pb-4 text-base leading-snug">
         <p className="font-display text-sm font-semibold">{formatLikes(post.likes)} likes</p>
-        {"location" in post && post.location && (
-          <p className="mt-1 flex items-center gap-1 font-display text-sm text-muted-foreground">
-            <MapPinIcon className="size-3.5" aria-hidden="true" />
-            {post.location}
-          </p>
-        )}
         <p className="mt-1">
           <span className="font-display text-sm font-semibold">{post.user}</span> {post.caption}
         </p>
