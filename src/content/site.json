@@ -1,0 +1,47 @@
+{
+  "url": "https://irenaarslanova.com",
+  "name": "Dr. Irena Arslanova",
+  "ogImage": "/images/portrait.png",
+  "pages": [
+    {
+      "id": "home",
+      "path": "/",
+      "html": "index.html",
+      "nav": "Home",
+      "title": "Dr. Irena Arslanova | Cognitive neuroscientist",
+      "description": "Irena Arslanova is a cognitive neuroscientist and Leverhulme Early-Career Fellow at Royal Holloway, University of London, studying how the heartbeat shapes our experience of time."
+    },
+    {
+      "id": "research",
+      "path": "/research/",
+      "html": "research/index.html",
+      "nav": "Research",
+      "title": "Research | Dr. Irena Arslanova",
+      "description": "Research by Irena Arslanova on time perception, interoception and brain-body interaction."
+    },
+    {
+      "id": "media",
+      "path": "/media/",
+      "html": "media/index.html",
+      "nav": "Media",
+      "title": "Media | Dr. Irena Arslanova",
+      "description": "Talks, radio and press featuring Irena Arslanova, including TEDx Berlin and NPR's TED Radio Hour."
+    },
+    {
+      "id": "cv",
+      "path": "/cv/",
+      "html": "cv/index.html",
+      "nav": "CV",
+      "title": "CV | Dr. Irena Arslanova",
+      "description": "Curriculum vitae of Irena Arslanova: positions, education and a downloadable PDF."
+    },
+    {
+      "id": "contact",
+      "path": "/contact/",
+      "html": "contact/index.html",
+      "nav": "Contact",
+      "title": "Contact | Dr. Irena Arslanova",
+      "description": "Get in touch with Irena Arslanova about taking part in a study, speaking or research collaboration."
+    }
+  ]
+}

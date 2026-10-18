@@ -1,0 +1,31 @@
+{
+  "positions": [
+    {
+      "years": "2024 – present",
+      "role": "Leverhulme Early-Career Fellow",
+      "place": "Royal Holloway, University of London"
+    },
+    {
+      "years": "2021 – 2024",
+      "role": "Postdoctoral Researcher",
+      "place": "Royal Holloway, University of London"
+    }
+  ],
+  "education": [
+    {
+      "years": "2017 – 2021",
+      "role": "PhD in Cognitive Neuroscience",
+      "place": "University College London"
+    },
+    {
+      "years": "2014 – 2017",
+      "role": "BSc Psychology, first class",
+      "place": "City St George's, University of London"
+    }
+  ],
+  "talks": [
+    { "year": "2024", "title": "Minds and Moments: An Interdisciplinary Workshop on Cognition, Brain and Time, organised by Prof. Ayelet Landau", "place": "Berlin, Germany (5–6 September 2024)" },
+    { "year": "2024", "title": "Timing Research Forum virtual journal club", "place": "Virtual (25 September 2024)" },
+    { "year": "2022", "title": "Momentary Emotion Elicitation and Capture (MEEC)", "place": "Virtual (17 October 2022)" }
+  ]
+}

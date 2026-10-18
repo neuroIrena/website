@@ -1,0 +1,33 @@
+{
+  "name": "Irena Arslanova",
+  "title": "Dr.",
+  "role": "Leverhulme Early-Career Fellow",
+  "department": "Department of Psychology",
+  "institution": "Royal Holloway, University of London",
+  "fields": ["Cognitive neuroscience", "Time perception", "Brain-body interaction"],
+  "headline": "Why do some moments fly by while others seem to stretch endlessly?",
+  "bio": [
+    "As a Leverhulme Early-Career Fellow at Royal Holloway, University of London's Psychology Department, I investigate the mysteries of time perception: why some moments fly by while others seem to stretch endlessly. My research explores how our internal bodily rhythms, particularly heartbeats, distort our experience of time.",
+    "During my PhD at University College London, I studied how scattered touch sensations coalesce into unified perceptions rather than remaining fragmented impressions. My work also examines attention, emotion, and embodiment, revealing how we activate our own internal body maps when trying to understand others."
+  ],
+  "email": "irena.arslanova@gmail.com",
+  "studyInvite": "Take part in my studies",
+  "address": [
+    "Department of Psychology",
+    "Royal Holloway, University of London",
+    "Egham, Surrey",
+    "TW20 0EX",
+    "United Kingdom"
+  ],
+  "links": {
+    "googleScholar": "https://scholar.google.com/citations?user=KqiY3hcAAAAJ&hl=en",
+    "orcid": "https://orcid.org/0000-0002-2981-3764",
+    "bluesky": "https://bsky.app/profile/neuroirena.bsky.social",
+    "x": "https://x.com/irena_arslanova",
+    "linkedin": "https://www.linkedin.com/in/irena-arslanova-9444a1a6",
+    "fellowship": "https://www.leverhulme.ac.uk/early-career-fellowships/search-experienced-time-how-heart-brain-coupling-supports-time-perception"
+  },
+  "logo": "/images/logo.png",
+  "portrait": "/images/portrait.png",
+  "cvPdf": "/cv.pdf"
+}

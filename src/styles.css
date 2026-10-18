@@ -1,0 +1,103 @@
+@import "tailwindcss";
+
+/* Colours: warm cream and gold, from the original site. Dark mode follows the visitor's system setting. */
+:root {
+  --background: #faf9f5;
+  --foreground: #2b2725;
+  --card: #fffefb;
+  --muted: #f1ede4;
+  --muted-foreground: #5f5955;
+  --border: #e4ddd0;
+  --primary: #2b2725;
+  --primary-foreground: #faf9f5;
+  --accent: #8b6431; /* gold, deepened enough to read as text */
+  --accent-foreground: #ffffff;
+  --trace: #a67b43; /* the original site's gold, for the heartbeat line and logo */
+  --ring: #8b6431;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #181512;
+    --foreground: #efeae2;
+    --card: #211d19;
+    --muted: #2a2520;
+    --muted-foreground: #b3aa9d;
+    --border: #3a332b;
+    --primary: #efeae2;
+    --primary-foreground: #181512;
+    --accent: #d4a867;
+    --accent-foreground: #181512;
+    --trace: #c99a5b;
+    --ring: #d4a867;
+  }
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-ring: var(--ring);
+  --color-trace: var(--trace);
+  --font-display: "Bricolage Grotesque Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Newsreader Variable", ui-serif, Georgia, serif;
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-serif);
+    font-size: 1.125rem;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+  a {
+    text-underline-offset: 0.2em;
+  }
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+}
+
+/* The heartbeat trace under the name: draws once on load, left to right. */
+.heartbeat-trace {
+  clip-path: inset(0 100% 0 0);
+  animation: trace-draw 2.4s cubic-bezier(0.45, 0, 0.2, 1) 0.3s forwards;
+}
+
+@keyframes trace-draw {
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heartbeat-trace {
+    animation: none;
+    clip-path: none;
+  }
+}
