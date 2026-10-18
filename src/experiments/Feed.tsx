@@ -19,12 +19,11 @@ const APPROX_CARD_HEIGHT = 640;
 const formatLikes = (n: number) => n.toLocaleString("en-GB");
 
 /**
- * A full-screen, Instagram-style feed that scrolls by itself at a constant speed
- * for a fixed time. The participant cannot scroll, pause or click anything.
+ * An Instagram-style feed that scrolls by itself at a constant speed for a fixed time.
+ * It fills whatever box it is given. The participant cannot scroll, pause or click anything.
  */
 export function Feed({ durationSeconds, pixelsPerSecond, onDone }: Props) {
   const scroller = useRef<HTMLDivElement>(null);
-  const done = useRef(false);
 
   // Repeat the pool, in its fixed order, until there is enough to scroll through.
   const items = useMemo(() => {
@@ -36,24 +35,19 @@ export function Feed({ durationSeconds, pixelsPerSecond, onDone }: Props) {
     const el = scroller.current;
     if (!el) return;
 
-    let fullscreen = false;
+    let cancelled = false;
     let hidden = false;
     const onVisibility = () => {
       if (document.hidden) hidden = true;
     };
     document.addEventListener("visibilitychange", onVisibility);
 
-    // Ask for fullscreen so the system clock is out of view. Fine if refused.
-    const requestFullscreen = document.documentElement.requestFullscreen?.bind(document.documentElement);
-    const fs = requestFullscreen
-      ? requestFullscreen({ navigationUI: "hide" }).then(() => (fullscreen = true)).catch(() => {})
-      : Promise.resolve();
-
     let frame = 0;
     let start = 0;
     const durationMs = durationSeconds * 1000;
 
     const tick = (now: number) => {
+      if (cancelled) return;
       if (!start) start = now;
       const elapsed = now - start;
       el.scrollTop = (elapsed / 1000) * pixelsPerSecond;
@@ -61,36 +55,26 @@ export function Feed({ durationSeconds, pixelsPerSecond, onDone }: Props) {
         frame = requestAnimationFrame(tick);
         return;
       }
-      if (done.current) return;
-      done.current = true;
+      cancelled = true;
       document.removeEventListener("visibilitychange", onVisibility);
-      if (document.fullscreenElement) document.exitFullscreen?.().catch(() => {});
       onDone({
         actualSeconds: elapsed / 1000,
         scrolledPixels: el.scrollTop,
-        fullscreen,
         hiddenDuringTask: hidden,
         postOrder: items.map((p: Post & { key: number }) => p.id),
       });
     };
-
-    // Start the clock once the fullscreen request has settled, so the resize doesn't eat into the time.
-    fs.then(() => {
-      frame = requestAnimationFrame(tick);
-    });
+    frame = requestAnimationFrame(tick);
 
     return () => {
+      cancelled = true;
       cancelAnimationFrame(frame);
       document.removeEventListener("visibilitychange", onVisibility);
     };
   }, [durationSeconds, pixelsPerSecond, items, onDone]);
 
   return (
-    <div
-      className="fixed inset-0 z-50 flex justify-center bg-background"
-      role="region"
-      aria-label="Social media feed, scrolling automatically"
-    >
+    <div className="flex h-full justify-center overflow-hidden rounded-xl border bg-secondary/40" role="region" aria-label="Social media feed, scrolling automatically">
       <div
         ref={scroller}
         className="w-full max-w-[470px] overflow-hidden"

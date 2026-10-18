@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 
+import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { profile, site } from "@/lib/content";
 import { cn } from "@/lib/utils";
@@ -17,21 +18,21 @@ function Header() {
         {profile.name}
       </a>
       <nav aria-label="Main">
-        <ul className="flex flex-wrap gap-x-5 gap-y-1 font-display text-[0.95rem]">
+        <ul className="flex flex-wrap gap-2">
           {site.pages.map((page) => {
             const current = isCurrent(page.path);
             return (
               <li key={page.id}>
-                <a
-                  href={page.path}
-                  aria-current={current ? "page" : undefined}
-                  className={cn(
-                    "no-underline decoration-primary decoration-2 hover:underline",
-                    current ? "text-foreground underline" : "text-muted-foreground hover:text-foreground",
-                  )}
+                <Button
+                  asChild
+                  variant={current ? "secondary" : "ghost"}
+                  size="sm"
+                  className={cn("no-underline", !current && "text-muted-foreground")}
                 >
-                  {page.nav}
-                </a>
+                  <a href={page.path} aria-current={current ? "page" : undefined}>
+                    {page.nav}
+                  </a>
+                </Button>
               </li>
             );
           })}
@@ -76,7 +77,7 @@ function Footer() {
   );
 }
 
-export function Layout({ children }: { children: ReactNode }) {
+export function Layout({ children, footer = true }: { children: ReactNode; footer?: boolean }) {
   return (
     <div className="flex min-h-screen flex-col">
       <a
@@ -89,7 +90,7 @@ export function Layout({ children }: { children: ReactNode }) {
       <main id="main" className="mx-auto w-full max-w-6xl flex-1 px-4 sm:px-8">
         {children}
       </main>
-      <Footer />
+      {footer && <Footer />}
     </div>
   );
 }

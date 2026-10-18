@@ -9,12 +9,12 @@ import { Layout } from "@/components/Layout";
 const app = window as Window & { __root?: Root };
 
 /** Renders a page inside the shared header and footer. */
-export function mount(page: ReactNode) {
+export function mount(page: ReactNode, { footer = true }: { footer?: boolean } = {}) {
   // Reuse the root so the dev server's live reload doesn't create a second one.
   app.__root ??= createRoot(document.getElementById("root")!);
   app.__root.render(
     <StrictMode>
-      <Layout>{page}</Layout>
+      <Layout footer={footer}>{page}</Layout>
     </StrictMode>,
   );
 }

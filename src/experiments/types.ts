@@ -1,15 +1,11 @@
 export type Condition = "quality" | "decision";
 
-export type Step = "landing" | "consent" | "instructions" | "feed" | "questions" | "debrief";
-
 /** What the feed task reports back when the time is up. */
 export type FeedResult = {
   /** Seconds the feed was actually on screen, measured with performance.now(). */
   actualSeconds: number;
   /** How far the feed scrolled, in CSS pixels. */
   scrolledPixels: number;
-  /** Whether the browser granted fullscreen for the task. */
-  fullscreen: boolean;
   /** Whether the tab lost visibility (participant switched away) during the task. */
   hiddenDuringTask: boolean;
   /** Ids of the posts in the order shown. */

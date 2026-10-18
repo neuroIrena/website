@@ -1,8 +1,8 @@
 {
   "title": "Scrolling through time",
   "shortTitle": "Social media feed study",
-  "durationSeconds": 180,
-  "scrollPixelsPerSecond": 45,
+  "durationSeconds": 45,
+  "scrollPixelsPerSecond": 60,
   "researcher": "Dr Irena Arslanova",
   "supervisorOrPi": "",
   "institution": "Department of Psychology, Royal Holloway, University of London",
@@ -12,16 +12,15 @@
   "dataProtectionContact": "[Royal Holloway Data Protection Officer email: to be confirmed by Irena]",
   "retentionYears": "[retention period, e.g. 10 years: to be confirmed by Irena]",
   "version": "Information sheet version 0.1, draft October 2026",
-
   "landing": {
-    "intro": "This is a short online study about how people experience social media content. It takes about five minutes. You'll watch a feed of posts for a few minutes and then answer some questions.",
-    "requirements": [
-      "You are 18 or older.",
-      "You have about five minutes without interruptions.",
-      "Please put your phone and any other screens with a clock out of sight, and don't pause once you've started."
-    ]
+    "messages": [
+      "Hi, and thanks for stopping by. This is a short study about how people experience social media content. It takes about three minutes.",
+      "You'll watch a feed of posts for a short while and then I'll ask you a few questions. Nothing personal is collected.",
+      "Before we start, three quick checks: you are 18 or older, you have a few minutes without interruptions, and any clocks (including your phone) are out of sight. Shall we go on?"
+    ],
+    "yes": "Yes, let's go",
+    "no": "Not right now"
   },
-
   "consent": {
     "heading": "Participant information",
     "sections": [
@@ -70,9 +69,13 @@
       "I am 18 years of age or older.",
       "I agree to take part in this study."
     ],
-    "button": "I consent, continue"
+    "button": "I consent, continue",
+    "intro": "First, the formal part. I'll go through the participant information one section at a time. Take your time, and feel free to scroll back up to re-read anything.",
+    "afterSections": "That's all the information. Now I need you to confirm a few statements, one at a time. Tap Agree for each one, or Decline if you'd rather not take part.",
+    "agree": "I agree",
+    "decline": "I'd rather not",
+    "declined": "No problem at all, thanks for considering it. Nothing has been recorded. You can close this page or go back to the website using the link at the top."
   },
-
   "instructions": {
     "common": [
       "On the next screen you will see a social media feed, a bit like Instagram. It will scroll on its own and you cannot pause it or interact with it.",
@@ -88,12 +91,12 @@
         "goal": "Imagine you are planning a holiday and need to decide between Greece and Italy. Use what you see in the feed to help you make your choice. At the end we will ask which you would pick."
       }
     },
-    "button": "Start the feed"
+    "button": "Start the feed",
+    "ready": "Ready when you are. The feed will start as soon as you tap the button."
   },
-
   "questions": {
     "timeHeading": "A quick question first",
-    "timePrompt": "Without looking at a clock, how long do you think the feed was shown for?",
+    "timePrompt": "Without looking at a clock: how long do you think the feed was shown for? Give me your best guess in minutes and seconds.",
     "confidencePrompt": "How confident are you in that estimate?",
     "checkedClockPrompt": "Did you look at a clock or timer at any point while the feed was running? Please answer honestly, it won't affect anything.",
     "quality": {
@@ -108,7 +111,10 @@
     "decision": {
       "heading": "Your decision",
       "choicePrompt": "Based on what you saw, where would you go?",
-      "options": ["Greece", "Italy"],
+      "options": [
+        "Greece",
+        "Italy"
+      ],
       "confidencePrompt": "How confident are you in that choice?",
       "scaleLow": "Not at all",
       "scaleHigh": "Completely"
@@ -116,18 +122,20 @@
     "engagementPrompt": "How absorbed were you in the feed?",
     "engagementLow": "Not at all",
     "engagementHigh": "Completely",
-    "button": "Submit answers"
+    "button": "Submit answers",
+    "afterFeed": "That's the end of the feed. Thanks for watching.",
+    "send": "Send"
   },
-
   "debrief": {
     "heading": "Thank you",
     "paragraphs": [
-      "Your answers have been recorded. Here is what the study was really about.",
+      "Thank you, that's everything. Your answers have been recorded. Here is what the study was really about.",
       "We are interested in how people judge the passage of time while scrolling through social media. In this study, everyone saw the same feed for exactly the same amount of time. What differed was the reason you were given for watching: some people were asked to judge the quality of the content, while others were given a goal, deciding between a trip to Greece or Italy. We want to know whether having a goal while scrolling, and gathering evidence towards a decision, changes how long the time feels.",
       "We could not tell you in advance that we would ask about time, because knowing this changes how people pay attention, and the study would no longer measure how time feels in everyday scrolling. We hope you understand why this detail was held back.",
       "Your data are completely anonymous, so they cannot be traced back to you, but for the same reason they cannot be withdrawn now that they have been submitted. If you have any questions or would like to know the results when the study is finished, you are welcome to email the researcher.",
       "If you know other people who might take part, please don't tell them about the time question, so that their experience is the same as yours was."
     ],
-    "sharePrompt": "Thank you again for your time. You can close this page now."
-  }
+    "sharePrompt": "Thanks again for your time. You can close this page now, or head back to the website using the link at the top."
+  },
+  "assistantName": "Study assistant"
 }
