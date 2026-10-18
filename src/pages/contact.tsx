@@ -13,16 +13,16 @@ function Contact() {
 
       <div className="grid gap-10 sm:grid-cols-2">
         <div className="flex gap-4">
-          <MailIcon className="mt-1.5 size-5 shrink-0 text-accent" aria-hidden="true" />
+          <MailIcon className="mt-1.5 size-5 shrink-0 text-primary" aria-hidden="true" />
           <div>
             <h2 className="text-xl font-semibold">Email</h2>
-            <a href={`mailto:${profile.email}`} className="decoration-accent decoration-2 break-all">
+            <a href={`mailto:${profile.email}`} className="decoration-primary decoration-2 break-all">
               {profile.email}
             </a>
           </div>
         </div>
         <div className="flex gap-4">
-          <MapPinIcon className="mt-1.5 size-5 shrink-0 text-accent" aria-hidden="true" />
+          <MapPinIcon className="mt-1.5 size-5 shrink-0 text-primary" aria-hidden="true" />
           <div>
             <h2 className="text-xl font-semibold">Address</h2>
             <address className="not-italic">

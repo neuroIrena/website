@@ -18,7 +18,7 @@ Personal website of Dr. Irena Arslanova, cognitive neuroscientist and Leverhulme
 - Static site: Vite + React + TypeScript, Tailwind CSS v4, shadcn/ui, lucide-react icons. No database or server code (yet, see Supabase below).
 - It's built as a **multi-page site**: each page has its own real `index.html`, so Google and link previews on LinkedIn and Bluesky see the right title and description. It is not a single-page app.
 - Code lives on GitHub at `neuroIrena/website`, branch `main`.
-- Hosting is on Netlify (project `irenaarslanova`, preview at https://irenaarslanova.netlify.app). Every push to `main` builds and publishes automatically within about a minute. Build settings and redirects from old WordPress addresses are in `netlify.toml`.
+- Hosting is on Netlify's free plan (project `irenaarslanova`, preview at https://irenaarslanova.netlify.app). Every push to `main` builds and publishes automatically within about a minute, and each build uses some of the free plan's monthly build allowance. Build settings and redirects from old WordPress addresses are in `netlify.toml`.
 - Node.js is installed in the user's home folder, not system-wide. If `npm` isn't found, run `export PATH="$HOME/.local/node/bin:$PATH"` first.
 
 Commands:
@@ -57,17 +57,17 @@ All text and lists are in JSON files. Most edits should change data only, never 
 ## Design rules
 
 - **Don't change the layout, colours or fonts unless Irena asks for a design change.** The look was agreed with her: warm cream background, gold accent (from her original site), Bricolage Grotesque headings, Newsreader body text, her name set very large on the home page with a gold heartbeat trace underneath that draws once on load. The uneven gaps between beats are deliberate (her research is on how time stretches within each heartbeat).
-- Colours are defined once as CSS variables at the top of `src/styles.css`, with a dark-mode set underneath. Use the Tailwind tokens (`bg-background`, `text-muted-foreground`, `text-accent`, `border`, etc.), never raw hex values in components.
+- Colours are defined once as CSS variables at the top of `src/styles.css`, with a dark-mode set underneath. They use shadcn/ui's token names: **`primary` is the gold** (buttons, links, icons), `accent` is shadcn's subtle cream hover background (not the gold), and `trace` is the heartbeat line. Use the Tailwind tokens (`bg-background`, `text-muted-foreground`, `text-primary`, `border`, etc.), never raw hex values in components.
 - Every change must work on a phone (down to 375px wide) and in both light and dark mode, keep a visible keyboard focus, and respect reduced-motion settings.
 - No gradients, no animations on every section, no all-caps labels.
 
 ## Components: use shadcn/ui
 
 - **All UI elements must be shadcn/ui components.** Before building anything (buttons, cards, dialogs, tabs, forms, inputs, menus, accordions, etc.), use the shadcn version.
-- shadcn components live in `src/components/ui/` and are styled to the site's tokens. Currently in use: `button`, `badge`.
-- Add new ones with the shadcn CLI, pinned to a version at least 14 days old (4.21.1 at the time of writing): `npx shadcn@4.21.1 add card`. Then check `package.json`: the CLI may add dependencies at their latest version, so pin each to an exact version published at least 14 days earlier.
-- Adjust a new component's styling to the site's tokens if needed, but keep its structure and API.
-- Site-specific layouts are in `src/components/` and are built from shadcn parts plus plain HTML: `ItemCard` (research and media cards, uses `Badge`), `Lists` (grids and speaking-topic pills), `Layout` (header, footer, page and section titles), `HeartbeatTrace`. When changing these, prefer swapping in shadcn components over adding new custom markup.
+- shadcn components live in `src/components/ui/`: `button`, `badge`, `card`, `separator`. They are the official shadcn source, with only the button's shape and fonts adjusted (rounded, heading font, larger default size).
+- Site-specific layouts in `src/components/` are built from them: `ItemCard` (research and media cards: `Card` + `Badge`), `Lists` (card grids and speaking-topic pills as `Badge`), `Layout` (header, footer, page titles, section headings with `Separator`), `HeartbeatTrace` (the SVG line under her name). The CV timeline uses `Separator`, and the home-page illustration sits in a `Card`.
+- Add new components with the shadcn CLI pinned to a version at least 14 days old (4.21.1 at the time of writing). **Known issue:** in this project, `shadcn add` writes `import { cn } from "cn"`, which breaks the build. Either fix that line to `import { cn } from "@/lib/utils"` after adding, or view the source with `npx shadcn@4.21.1 add <name> --view` and write the file by hand. Primitives come from the single `radix-ui` package (pinned). Check `package.json` afterwards and pin anything the CLI added to an exact version published at least 14 days earlier.
+- Keep a new component's structure and API. Adjust styling only through the site's tokens.
 - Icons come from `lucide-react`. Its current version has no brand logos (LinkedIn, X), so social links are text.
 
 ## Dependencies
@@ -85,10 +85,15 @@ All text and lists are in JSON files. Most edits should change data only, never 
 
 ## Saving and publishing
 
-1. Always run `npm run build` before saving a version. **Never push a broken build**: if it fails, fix it or tell Irena (or Alex) what's wrong.
-2. Commit with a short, plain message describing the change for a human ("Add new paper on heartbeat and attention").
-3. Push to `main`. Netlify publishes it automatically, about a minute later.
-4. Tell Irena it's live and give her the page link.
+Work locally first. Netlify's free plan has a limited monthly build allowance, and every push to GitHub triggers a build, so **save versions locally and only publish when asked**.
+
+1. Make the change and check it on the local preview (`npm run dev`).
+2. Run `npm run build`. **Never commit or push a broken build**: if it fails, fix it or explain what's wrong.
+3. Save a version locally: commit with a short, plain message describing the change for a human ("Add new paper on heartbeat and attention"). Several small commits are fine.
+4. **Don't push after every change.** Push to `main` only when Irena or Alex says they're happy and asks to publish ("publish it", "put it live", "push"). One push publishes all the saved versions together.
+5. After pushing, Netlify publishes automatically about a minute later. Tell Irena it's live and give her the page link.
+
+When talking to Irena: "I've saved this version on your computer. It isn't on the public site yet. Say 'publish' when you're happy and I'll put everything live."
 
 Don't commit anything from outside this folder. The WordPress backup is deliberately kept in `../wordpress-backup/`.
 
@@ -113,4 +118,5 @@ From the move off WordPress (October 2026):
 - Confirm `public/cv.pdf` (August 2026) is her latest CV. It includes her mobile number.
 - Not on the old site but in her CV, so possible additions: Psyche article, two podcasts (Brain Space Time, The Encourager), Pint of Science, a publications list.
 - The 404 page is Netlify's plain default.
+- Old post pages (blog): each research and media item had its own page on WordPress with the full text (for example the Leverhulme essay, paper abstracts, and a figure from the Current Biology paper, `public/images/research-time-within-heartbeat-figure.png`). The new site links straight to the outside source instead, and old post addresses redirect to /research/ or /media/. The full texts are in `content-archive/wordpress-posts.md` if post pages or a blog are added.
 - Images in `public/images/` total about 5 MB and could be resized and compressed. `portrait-casual.jpg` (1.6 MB) isn't used anywhere.

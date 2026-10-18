@@ -3,19 +3,23 @@ import { DownloadIcon, GraduationCapIcon } from "lucide-react";
 import { mount } from "@/mount";
 import { PageTitle, SectionHeading } from "@/components/Layout";
 import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import { cv, profile } from "@/lib/content";
 
 type Entry = { years: string; role: string; place: string };
 
 function Timeline({ entries }: { entries: Entry[] }) {
   return (
-    <ol className="space-y-6">
-      {entries.map((entry) => (
-        <li key={entry.role + entry.years} className="grid gap-1 sm:grid-cols-[10rem_1fr] sm:gap-8">
-          <span className="font-display text-base text-muted-foreground tabular-nums">{entry.years}</span>
-          <div>
-            <p className="font-display text-xl font-semibold">{entry.role}</p>
-            <p className="text-muted-foreground">{entry.place}</p>
+    <ol>
+      {entries.map((entry, i) => (
+        <li key={entry.role + entry.years}>
+          {i > 0 && <Separator className="my-5" />}
+          <div className="grid gap-1 sm:grid-cols-[10rem_1fr] sm:gap-8">
+            <span className="font-display text-base text-muted-foreground tabular-nums">{entry.years}</span>
+            <div>
+              <p className="font-display text-xl font-semibold">{entry.role}</p>
+              <p className="text-muted-foreground">{entry.place}</p>
+            </div>
           </div>
         </li>
       ))}

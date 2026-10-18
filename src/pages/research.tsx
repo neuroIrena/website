@@ -12,7 +12,7 @@ function Research() {
           <p>
             How our bodies, and especially our heartbeats, shape the way we perceive time, ourselves and other people.
             For a full list of publications, see my{" "}
-            <a href={profile.links.googleScholar} className="text-foreground decoration-accent decoration-2">
+            <a href={profile.links.googleScholar} className="text-foreground decoration-primary decoration-2">
               Google Scholar profile
             </a>
             .

@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 
+import { Separator } from "@/components/ui/separator";
 import { profile, site } from "@/lib/content";
 import { cn } from "@/lib/utils";
 
@@ -25,7 +26,7 @@ function Header() {
                   href={page.path}
                   aria-current={current ? "page" : undefined}
                   className={cn(
-                    "no-underline decoration-accent decoration-2 hover:underline",
+                    "no-underline decoration-primary decoration-2 hover:underline",
                     current ? "text-foreground underline" : "text-muted-foreground hover:text-foreground",
                   )}
                 >
@@ -49,7 +50,8 @@ function Footer() {
     { label: "LinkedIn", href: profile.links.linkedin },
   ];
   return (
-    <footer className="mt-24 border-t">
+    <footer className="mt-24">
+      <Separator />
       <div className="mx-auto flex max-w-6xl flex-col gap-6 px-4 py-10 sm:flex-row sm:items-end sm:justify-between sm:px-8">
         <div className="text-base text-muted-foreground">
           <p className="font-display font-semibold text-foreground">
@@ -63,7 +65,7 @@ function Footer() {
         <ul className="flex flex-wrap gap-x-5 gap-y-2 font-display text-[0.95rem]">
           {links.map((link) => (
             <li key={link.label}>
-              <a href={link.href} className="decoration-accent decoration-2 hover:text-accent">
+              <a href={link.href} className="decoration-primary decoration-2 hover:text-primary">
                 {link.label}
               </a>
             </li>
@@ -103,9 +105,12 @@ export function PageTitle({ title, intro }: { title: string; intro?: ReactNode }
 
 export function SectionHeading({ title, action }: { title: string; action?: ReactNode }) {
   return (
-    <div className="mb-8 flex flex-wrap items-baseline justify-between gap-4 border-t pt-6">
-      <h2 className="text-3xl font-semibold">{title}</h2>
-      {action}
+    <div className="mb-8">
+      <Separator className="mb-6" />
+      <div className="flex flex-wrap items-baseline justify-between gap-4">
+        <h2 className="text-3xl font-semibold">{title}</h2>
+        {action}
+      </div>
     </div>
   );
 }

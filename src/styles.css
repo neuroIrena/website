@@ -1,19 +1,27 @@
 @import "tailwindcss";
 
-/* Colours: warm cream and gold, from the original site. Dark mode follows the visitor's system setting. */
+/* Colours: warm cream and gold, from the original site, using shadcn/ui token names.
+   Dark mode follows the visitor's system setting. */
 :root {
   --background: #faf9f5;
   --foreground: #2b2725;
   --card: #fffefb;
+  --card-foreground: #2b2725;
+  --popover: #fffefb;
+  --popover-foreground: #2b2725;
+  --primary: #8b6431; /* gold, deepened enough to read as text */
+  --primary-foreground: #ffffff;
+  --secondary: #f1ede4;
+  --secondary-foreground: #2b2725;
   --muted: #f1ede4;
   --muted-foreground: #5f5955;
+  --accent: #f1ede4; /* shadcn's subtle hover background, not the gold */
+  --accent-foreground: #2b2725;
+  --destructive: #b42318;
   --border: #e4ddd0;
-  --primary: #2b2725;
-  --primary-foreground: #faf9f5;
-  --accent: #8b6431; /* gold, deepened enough to read as text */
-  --accent-foreground: #ffffff;
-  --trace: #a67b43; /* the original site's gold, for the heartbeat line and logo */
+  --input: #e4ddd0;
   --ring: #8b6431;
+  --trace: #a67b43; /* the original site's gold, for the heartbeat line */
 }
 
 @media (prefers-color-scheme: dark) {
@@ -21,15 +29,22 @@
     --background: #181512;
     --foreground: #efeae2;
     --card: #211d19;
+    --card-foreground: #efeae2;
+    --popover: #211d19;
+    --popover-foreground: #efeae2;
+    --primary: #d4a867;
+    --primary-foreground: #181512;
+    --secondary: #2a2520;
+    --secondary-foreground: #efeae2;
     --muted: #2a2520;
     --muted-foreground: #b3aa9d;
+    --accent: #2a2520;
+    --accent-foreground: #efeae2;
+    --destructive: #f97066;
     --border: #3a332b;
-    --primary: #efeae2;
-    --primary-foreground: #181512;
-    --accent: #d4a867;
-    --accent-foreground: #181512;
-    --trace: #c99a5b;
+    --input: #3a332b;
     --ring: #d4a867;
+    --trace: #c99a5b;
   }
 }
 
@@ -37,13 +52,20 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-border: var(--border);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
   --color-ring: var(--ring);
   --color-trace: var(--trace);
   --font-display: "Bricolage Grotesque Variable", ui-sans-serif, system-ui, sans-serif;

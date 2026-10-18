@@ -5,11 +5,12 @@ import { HeartbeatTrace } from "@/components/HeartbeatTrace";
 import { SectionHeading } from "@/components/Layout";
 import { MediaList, ResearchList, TopicList } from "@/components/Lists";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import { media, profile, research, speaking, studyMailto } from "@/lib/content";
 
 function SeeAll({ href, label }: { href: string; label: string }) {
   return (
-    <a href={href} className="inline-flex items-center gap-1.5 font-display text-base decoration-accent decoration-2 hover:text-accent">
+    <a href={href} className="inline-flex items-center gap-1.5 font-display text-base decoration-primary decoration-2 hover:text-primary">
       {label}
       <ArrowRightIcon className="size-4" aria-hidden="true" />
     </a>
@@ -78,6 +79,19 @@ function Home() {
         <SectionHeading title="Media" action={<SeeAll href="/media/" label="All media" />} />
         <MediaList items={media.slice(0, 2)} wide />
       </section>
+
+      <Card className="mt-24 shadow-none">
+        <CardContent className="flex justify-center px-6 sm:px-12">
+          <img
+            src={profile.illustration}
+            alt="Engraved illustrations of a heart, a pocket watch and a brain"
+            width={1082}
+            height={325}
+            loading="lazy"
+            className="h-auto w-full max-w-3xl mix-blend-multiply dark:mix-blend-screen dark:invert"
+          />
+        </CardContent>
+      </Card>
 
       <section className="mt-24">
         <SectionHeading title="Speaking" />
