@@ -5,6 +5,7 @@ import type { ReactNode } from "react";
 export type Prompt =
   | { kind: "buttons"; options: { label: string; value: string }[] }
   | { kind: "action"; label: string }
+  | { kind: "link"; label: string; href: string }
   | { kind: "consent"; statements: string[]; agree: string; decline: string }
   | { kind: "choice"; options: string[]; submit?: string }
   | { kind: "scale"; low: string; high: string; points?: number; submit?: string }

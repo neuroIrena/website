@@ -196,6 +196,7 @@ export function FeedTimeExperiment() {
         [...config.debrief.paragraphs, `You were in the "${label}" group.`].join("\n\n"),
         config.debrief.sharePrompt,
       ]);
+      void ask({ kind: "link", label: "Exit study", href: "/experiments/" });
     }
 
     void run();

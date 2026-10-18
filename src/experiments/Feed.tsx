@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef } from "react";
-import { BookmarkIcon, HeartIcon, MessageCircleIcon, SendIcon } from "lucide-react";
+import { BookmarkIcon, HeartIcon, MapPinIcon, MessageCircleIcon, SendIcon } from "lucide-react";
 
 import { Card } from "@/components/ui/card";
 import posts from "@/content/experiments/feed-posts.json";
@@ -107,7 +107,7 @@ function FeedPost({ post }: { post: Post }) {
   return (
     <Card className="pointer-events-none gap-0 overflow-hidden rounded-xl py-0 shadow-none">
       <div className="flex items-center gap-3 px-4 py-3">
-        <span className="size-8 rounded-full bg-primary/70" aria-hidden="true" />
+        <span className="size-8 shrink-0 rounded-full bg-primary/70" aria-hidden="true" />
         <span className="font-display text-sm font-semibold">{post.user}</span>
       </div>
       <img src={post.image} alt="" width={800} height={800} className="aspect-square w-full bg-muted object-cover" />
@@ -119,6 +119,12 @@ function FeedPost({ post }: { post: Post }) {
       </div>
       <div className="px-4 pt-2 pb-4 text-base leading-snug">
         <p className="font-display text-sm font-semibold">{formatLikes(post.likes)} likes</p>
+        {"location" in post && post.location && (
+          <p className="mt-1 flex items-center gap-1 font-display text-sm text-muted-foreground">
+            <MapPinIcon className="size-3.5" aria-hidden="true" />
+            {post.location}
+          </p>
+        )}
         <p className="mt-1">
           <span className="font-display text-sm font-semibold">{post.user}</span> {post.caption}
         </p>

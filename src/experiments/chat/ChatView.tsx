@@ -88,6 +88,14 @@ function PromptArea({ prompt, onAnswer }: { prompt: Prompt; onAnswer: Props["onA
           </Button>
         </div>
       );
+    case "link":
+      return (
+        <div className="flex justify-end">
+          <Button asChild>
+            <a href={prompt.href}>{prompt.label}</a>
+          </Button>
+        </div>
+      );
     case "consent":
       return <ConsentPrompt prompt={prompt} onAnswer={onAnswer} />;
     case "choice":
