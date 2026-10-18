@@ -1,5 +1,7 @@
 import type { ReactNode } from "react";
+import { XIcon } from "lucide-react";
 
+import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { profile, site } from "@/lib/content";
 import { cn } from "@/lib/utils";
@@ -17,21 +19,21 @@ function Header() {
         {profile.name}
       </a>
       <nav aria-label="Main">
-        <ul className="flex flex-wrap gap-x-5 gap-y-1 font-display text-[0.95rem]">
+        <ul className="flex flex-wrap gap-2">
           {site.pages.map((page) => {
             const current = isCurrent(page.path);
             return (
               <li key={page.id}>
-                <a
-                  href={page.path}
-                  aria-current={current ? "page" : undefined}
-                  className={cn(
-                    "no-underline decoration-primary decoration-2 hover:underline",
-                    current ? "text-foreground underline" : "text-muted-foreground hover:text-foreground",
-                  )}
+                <Button
+                  asChild
+                  variant={current ? "secondary" : "ghost"}
+                  size="sm"
+                  className={cn("no-underline", !current && "text-muted-foreground")}
                 >
-                  {page.nav}
-                </a>
+                  <a href={page.path} aria-current={current ? "page" : undefined}>
+                    {page.nav}
+                  </a>
+                </Button>
               </li>
             );
           })}
@@ -76,7 +78,27 @@ function Footer() {
   );
 }
 
-export function Layout({ children }: { children: ReactNode }) {
+/** The header shown while a study is running: nothing but a way out. */
+function StudyHeader({ exitHref }: { exitHref: string }) {
+  return (
+    <header className="fixed top-3 right-3 z-40 sm:top-4 sm:right-4">
+      <Button asChild variant="outline" size="sm" className="bg-background/90 backdrop-blur-sm">
+        <a href={exitHref}>
+          <XIcon aria-hidden="true" />
+          Exit study
+        </a>
+      </Button>
+    </header>
+  );
+}
+
+export type LayoutOptions = {
+  footer?: boolean;
+  /** When set, the normal header and menu are replaced by a single exit link to this address. */
+  exitHref?: string;
+};
+
+export function Layout({ children, footer = true, exitHref }: { children: ReactNode } & LayoutOptions) {
   return (
     <div className="flex min-h-screen flex-col">
       <a
@@ -85,11 +107,11 @@ export function Layout({ children }: { children: ReactNode }) {
       >
         Skip to content
       </a>
-      <Header />
-      <main id="main" className="mx-auto w-full max-w-6xl flex-1 px-4 sm:px-8">
+      {exitHref ? <StudyHeader exitHref={exitHref} /> : <Header />}
+      <main id="main" className={cn("mx-auto w-full max-w-6xl flex-1 px-4 sm:px-8", exitHref && "pt-12")}>
         {children}
       </main>
-      <Footer />
+      {footer && <Footer />}
     </div>
   );
 }

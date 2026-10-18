@@ -4,12 +4,23 @@ import { defineConfig, type Plugin } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import site from "./src/content/site.json";
+import experiments from "./src/content/experiments.json";
 import { loadPosts, POSTS_DIR, writePostPages } from "./src/lib/posts-build";
 
 const root = fileURLToPath(new URL(".", import.meta.url));
 
 let posts = loadPosts(root);
 writePostPages(root, posts);
+
+// Each experiment has its own page under /experiments/<slug>/. They are kept out of search results.
+const experimentPages = experiments.map((e) => ({
+  id: `experiment-${e.slug}`,
+  path: `/experiments/${e.slug}/`,
+  html: `experiments/${e.slug}/index.html`,
+  title: `${e.title} | ${site.name}`,
+  description: e.summary,
+  image: e.image,
+}));
 
 const escape = (s: string) =>
   s.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;");
@@ -21,11 +32,14 @@ function pageHead(): Plugin {
     name: "page-head",
     transformIndexHtml(html, ctx) {
       const file = ctx.path.replace(/^\//, "");
-      const page = site.pages.find((p) => p.html === file);
+      const experiment = experimentPages.find((p) => p.html === file);
+      const page = site.pages.find((p) => p.html === file) ?? experiment;
       const post = posts.find((p) => p.html === file);
-      if (!page && !post) throw new Error(`No entry in src/content/site.json or ${POSTS_DIR} for ${file}`);
+      if (!page && !post) {
+        throw new Error(`No entry in src/content/site.json, src/content/experiments.json or ${POSTS_DIR} for ${file}`);
+      }
       const url = site.url + (page ? page.path : post!.path);
-      const image = site.url + (post?.image ?? site.ogImage);
+      const image = site.url + (post?.image ?? experiment?.image ?? site.ogImage);
       const title = escape(page ? page.title : `${post!.title} | ${site.name}`);
       const desc = escape(page ? page.description : post!.description);
       const head = [
@@ -42,6 +56,7 @@ function pageHead(): Plugin {
         `<meta name="twitter:title" content="${title}" />`,
         `<meta name="twitter:description" content="${desc}" />`,
         `<meta name="twitter:image" content="${image}" />`,
+        ...(experiment ? [`<meta name="robots" content="noindex" />`] : []),
       ].join("\n    ");
       return html.replace("<!--head-->", head);
     },
@@ -83,6 +98,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         ...Object.fromEntries(site.pages.map((p) => [p.id, root + p.html])),
+        ...Object.fromEntries(experimentPages.map((p) => [p.id, root + p.html])),
         ...Object.fromEntries(posts.map((p) => [`${p.section}-${p.slug}`, root + p.html])),
       },
     },

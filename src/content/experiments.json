@@ -1,0 +1,10 @@
+[
+  {
+    "slug": "feed-time",
+    "title": "Scrolling through time",
+    "summary": "Watch a short social media feed and answer a few questions about it. Takes about five minutes on a laptop, tablet or phone.",
+    "minutes": 5,
+    "image": "/images/experiment-feed-time.svg",
+    "status": "open"
+  }
+]

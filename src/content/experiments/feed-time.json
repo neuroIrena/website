@@ -1,0 +1,151 @@
+{
+  "title": "Scrolling through time",
+  "shortTitle": "Social media feed study",
+  "durationSeconds": 30,
+  "scroll": {
+    "mode": "stepped",
+    "dwellSeconds": [
+      2.4,
+      2.9,
+      2.2,
+      3.1,
+      2.6,
+      2.3,
+      2.8,
+      2.5
+    ],
+    "flickMs": 400,
+    "pixelsPerSecond": 120
+  },
+  "researcher": "Dr Irena Arslanova",
+  "supervisorOrPi": "",
+  "institution": "Department of Psychology, Royal Holloway, University of London",
+  "contactEmail": "irena.arslanova@gmail.com",
+  "ethicsReference": "[ETHICS APPROVAL REFERENCE: to be added by Irena]",
+  "ethicsContact": "[Ethics committee contact, e.g. the Department of Psychology Ethics Committee email: to be confirmed by Irena]",
+  "dataProtectionContact": "[Royal Holloway Data Protection Officer email: to be confirmed by Irena]",
+  "retentionYears": "[retention period, e.g. 10 years: to be confirmed by Irena]",
+  "version": "Information sheet version 0.1, draft October 2026",
+  "landing": {
+    "messages": [
+      "Hi, and thanks for stopping by. This is a short study about how people experience social media content. It takes about three minutes: you'll watch a feed of posts for a short while and then answer a few questions. Nothing personal is collected.\n\nBefore we start, three quick checks: you are 18 or older, you have a few minutes without interruptions, and any clocks (including your phone) are out of sight. Shall we go on?"
+    ],
+    "yes": "Yes, let's go",
+    "no": "Not right now"
+  },
+  "consent": {
+    "heading": "Participant information",
+    "sections": [
+      {
+        "heading": "Invitation",
+        "body": "You are invited to take part in a research study run by Dr Irena Arslanova, Leverhulme Early-Career Fellow in the Department of Psychology at Royal Holloway, University of London. Before you decide whether to take part, please read the information below. If anything is unclear, you can email the researcher at the address at the bottom of this page."
+      },
+      {
+        "heading": "What is the study about?",
+        "body": "The study looks at how people experience and evaluate content on social media feeds. To keep the results meaningful, some details of what we are measuring cannot be given in advance. They will be explained in full at the end, and you will be able to ask questions."
+      },
+      {
+        "heading": "What will I be asked to do?",
+        "body": "You will see a short set of instructions, then watch a social media style feed that scrolls by itself for a few minutes. You cannot pause or interact with it. Afterwards you will answer a small number of questions about what you saw. The whole study takes about five minutes. Please complete it in one sitting, on your own, in a quiet place, with any clocks out of view."
+      },
+      {
+        "heading": "Do I have to take part?",
+        "body": "No. Taking part is entirely voluntary. You can stop at any time, without giving a reason, simply by closing this page. If you stop before the final screen, nothing is kept. Because the data are anonymous, once you have submitted your answers it will not be possible to identify and remove them."
+      },
+      {
+        "heading": "Are there any risks or benefits?",
+        "body": "There are no known risks beyond those of everyday internet use. The feed shows everyday lifestyle content such as travel, food, nature and pets, and contains nothing distressing. There is no payment and no direct benefit to you, but your participation will help us understand how people experience social media."
+      },
+      {
+        "heading": "What information will be collected?",
+        "body": "We do not ask for your name, email address or any other personal details, and we do not record your IP address. We record only your answers to the questions, timings from the task (for example how long the feed was shown and when you pressed each button), and basic technical details of your device such as browser and screen size, so that we can check the task displayed correctly. Nothing in this study could be used to identify you."
+      },
+      {
+        "heading": "How will my data be used and stored?",
+        "body": "Royal Holloway, University of London is the data controller for this study. The legal basis for processing your data under UK data protection law is that the research is a task carried out in the public interest. Data are stored securely on university approved systems and kept for the retention period required by the university. Anonymous data may be shared with other researchers, published in scientific journals, presented at conferences, and placed in open research repositories, as is standard practice in science. Because the data contain no personal information, you cannot be identified in any of these."
+      },
+      {
+        "heading": "Who has reviewed this study?",
+        "body": "The study has been reviewed and approved by the Research Ethics Committee at Royal Holloway, University of London."
+      },
+      {
+        "heading": "Questions or concerns",
+        "body": "If you have questions about the study, please contact the researcher. If you have a concern about how the study was conducted and would prefer to speak to someone independent, you can contact the ethics committee. If you have a concern about how your data are handled, you can contact the university's Data Protection Officer, and you also have the right to complain to the Information Commissioner's Office."
+      }
+    ],
+    "statements": [
+      "I have read and understood the information above, and I have had the chance to ask questions.",
+      "I understand that taking part is voluntary and that I can stop at any time, without giving a reason, by closing this page.",
+      "I understand that no personal information is collected, that my answers are anonymous, and that once submitted they cannot be withdrawn.",
+      "I understand that anonymous data from this study may be published and shared with other researchers.",
+      "I am 18 years of age or older.",
+      "I agree to take part in this study."
+    ],
+    "button": "I consent, continue",
+    "intro": "First, the formal part. Here is the participant information sheet. Please read it, then tick the statements underneath to confirm you agree. You can scroll back up to it at any time.",
+    "agree": "I agree",
+    "decline": "I'd rather not take part",
+    "declined": "No problem at all, thanks for considering it. Nothing has been recorded. You can use the Exit button at the top to go back to the website."
+  },
+  "instructions": {
+    "common": [
+      "Thank you. Here's what happens next.\n\nIn a moment you will see a social media feed, a bit like Instagram. It will scroll on its own and you cannot pause it or interact with it. Just watch it as you normally would. Please stay on this page, keep any clocks out of sight, and don't look away until it finishes."
+    ],
+    "conditions": {
+      "quality": {
+        "label": "Content quality",
+        "goal": "At the end we will ask you to rate the quality of the content you saw, so pay attention to the posts."
+      },
+      "decision": {
+        "label": "Trip decision",
+        "goal": "Imagine you are planning a holiday and need to decide between Greece and Italy. Use what you see in the feed to help you make your choice. At the end we will ask which you would pick."
+      }
+    },
+    "button": "Start the feed",
+    "ready": "Ready when you are. The feed will start as soon as you tap the button."
+  },
+  "questions": {
+    "timeHeading": "A quick question first",
+    "timePrompt": "Without looking at a clock: how long do you think the feed was shown for? Give me your best guess in seconds.",
+    "confidencePrompt": "How confident are you in that estimate?",
+    "checkedClockPrompt": "Did you look at a clock or timer at any point while the feed was running? Please answer honestly, it won't affect anything.",
+    "quality": {
+      "heading": "About the content",
+      "qualityPrompt": "Overall, how would you rate the quality of the content you saw?",
+      "interestPrompt": "How interesting did you find it?",
+      "scaleLow": "Very poor",
+      "scaleHigh": "Excellent",
+      "interestLow": "Not at all",
+      "interestHigh": "Very"
+    },
+    "decision": {
+      "heading": "Your decision",
+      "choicePrompt": "Based on what you saw, where would you go?",
+      "options": [
+        "Greece",
+        "Italy"
+      ],
+      "confidencePrompt": "How confident are you in that choice?",
+      "scaleLow": "Not at all",
+      "scaleHigh": "Completely"
+    },
+    "engagementPrompt": "How absorbed were you in the feed?",
+    "engagementLow": "Not at all",
+    "engagementHigh": "Completely",
+    "button": "Submit answers",
+    "afterFeed": "That's the end of the feed, thanks for watching.",
+    "send": "Send"
+  },
+  "debrief": {
+    "heading": "Thank you",
+    "paragraphs": [
+      "Thank you, that's everything. Your answers have been recorded. Here is what the study was really about.",
+      "We are interested in how people judge the passage of time while scrolling through social media. In this study, everyone saw the same feed for exactly the same amount of time. What differed was the reason you were given for watching: some people were asked to judge the quality of the content, while others were given a goal, deciding between a trip to Greece or Italy. We want to know whether having a goal while scrolling, and gathering evidence towards a decision, changes how long the time feels.",
+      "We could not tell you in advance that we would ask about time, because knowing this changes how people pay attention, and the study would no longer measure how time feels in everyday scrolling. We hope you understand why this detail was held back.",
+      "Your data are completely anonymous, so they cannot be traced back to you, but for the same reason they cannot be withdrawn now that they have been submitted. If you have any questions or would like to know the results when the study is finished, you are welcome to email the researcher.",
+      "If you know other people who might take part, please don't tell them about the time question, so that their experience is the same as yours was."
+    ],
+    "sharePrompt": "Thanks again for your time. You can close this page now, or use the button below to go back to the website."
+  },
+  "assistantName": "Study assistant"
+}
