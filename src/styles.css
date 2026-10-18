@@ -123,3 +123,44 @@
     clip-path: none;
   }
 }
+
+/* Text of a post page, which comes from a Markdown file. */
+.post-body {
+  & > * + * {
+    margin-top: 1.25em;
+  }
+  & h2,
+  & h3 {
+    margin-top: 2em;
+    font-size: 1.6rem;
+    font-weight: 600;
+  }
+  & a {
+    text-decoration-line: underline;
+    text-underline-offset: 0.2em;
+    text-decoration-color: var(--primary);
+    text-decoration-thickness: 2px;
+  }
+  & blockquote {
+    border-left: 2px solid var(--primary);
+    padding-left: 1.25rem;
+    color: var(--muted-foreground);
+  }
+  & blockquote > * + * {
+    margin-top: 1em;
+  }
+  & ul,
+  & ol {
+    padding-left: 1.5rem;
+    list-style: disc;
+  }
+  & ol {
+    list-style: decimal;
+  }
+  & img {
+    margin-block: 2.5rem;
+    border-radius: 0.75rem;
+    max-width: 100%;
+    height: auto;
+  }
+}

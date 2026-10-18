@@ -10,10 +10,16 @@ type Props = {
   summary?: string;
   image?: string;
   link?: string;
+  /** Address of this item's own post page, if it has one. */
+  href?: string;
 };
 
-/** One research or media item. Empty summary or link fields simply don't show. */
-export function ItemCard({ title, label, meta, summary, image, link }: Props) {
+/**
+ * One research or media item. Opens its post page if it has one, otherwise the outside link.
+ * Empty summary or link fields simply don't show.
+ */
+export function ItemCard({ title, label, meta, summary, image, link, href }: Props) {
+  const external = !href && link;
   return (
     <Card className="group relative gap-0 overflow-hidden pt-0 shadow-none transition-colors hover:border-primary/40">
       {image && (
@@ -30,16 +36,19 @@ export function ItemCard({ title, label, meta, summary, image, link }: Props) {
         </div>
         <CardTitle className="mt-1 font-display text-xl leading-tight text-balance">
           <h3>
-            {link ? (
+            {href || link ? (
               <a
-                href={link}
-                target="_blank"
-                rel="noopener noreferrer"
+                href={href ?? link}
+                {...(external && { target: "_blank", rel: "noopener noreferrer" })}
                 className="decoration-primary decoration-2 no-underline group-hover:underline after:absolute after:inset-0 after:content-['']"
               >
                 {title}
-                <ArrowUpRightIcon className="ml-1 inline size-4 align-baseline text-primary" aria-hidden="true" />
-                <span className="sr-only"> (opens in a new tab)</span>
+                {external && (
+                  <>
+                    <ArrowUpRightIcon className="ml-1 inline size-4 align-baseline text-primary" aria-hidden="true" />
+                    <span className="sr-only"> (opens in a new tab)</span>
+                  </>
+                )}
               </a>
             ) : (
               title

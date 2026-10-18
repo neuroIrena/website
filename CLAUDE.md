@@ -35,8 +35,9 @@ All text and lists are in JSON files. Most edits should change data only, never 
 | Irena asks to... | Edit this file |
 |---|---|
 | Change her bio, headline, job title, email, address, social links, portrait or CV link | `src/content/profile.json` |
-| Add or edit a paper or research project | `src/content/research.json` |
-| Add or edit a talk, radio interview or press article | `src/content/media.json` (`kind` is `Talk`, `Radio` or `Press`; `date` is `YYYY-MM`) |
+| Add or edit a paper or research project | `src/content/research.json` (the card), plus its post in `src/content/posts/` |
+| Add or edit a talk, radio interview or press article | `src/content/media.json` (the card; `kind` is `Talk`, `Radio` or `Press`; `date` is `YYYY-MM`), plus its post in `src/content/posts/` |
+| Change the full text of a post | `src/content/posts/<name>.md` |
 | Change speaking topics, the speaking note, the collaboration note or the contact intro | `src/content/speaking.json` |
 | Add a job or a degree | `src/content/cv.json` |
 | Change a page's browser title, Google description or menu label | `src/content/site.json` |
@@ -45,7 +46,33 @@ All text and lists are in JSON files. Most edits should change data only, never 
 - **New items go at the top of their list**, newest first. The home page shows the first two research and media items.
 - An empty `summary` or `link` (`""`) is simply not shown, so leave it empty rather than inventing text.
 - Images go in `public/images/` with clear names like `research-topic-name.png` or `media-outlet-name.jpg`, referenced as `/images/...`. Ask Irena for the image or a link to one; don't make one up.
-- `content-archive/wordpress-posts.md` has the full text of the old WordPress posts. It isn't shown on the site, but it's useful as a source when Irena asks for summaries.
+- `content-archive/wordpress-posts.md` is the raw text of the old WordPress posts as saved during the move. The posts now live in `src/content/posts/`; the archive is kept only as a record.
+
+## Posts
+
+Every research and media card opens its own post page, like the old WordPress posts did. A post is one Markdown text file in `src/content/posts/`. The file name is the post's address: `tedx-berlin.md` with `section: media` becomes `/media/tedx-berlin/`.
+
+```markdown
+---
+title: TEDx Berlin: Does your heartbeat shape your sense of time?
+section: media
+image: /images/media-tedx-berlin.png
+source: https://www.ted.com/talks/...
+sourceLabel: Watch the talk on TED
+credit: By ..., in ... (2023)
+description: One sentence for Google and link previews (optional).
+---
+
+The text, in Markdown. Paragraphs are separated by a blank line.
+Quotes from articles go in a > blockquote. Images: ![What the image shows](/images/name.png)
+```
+
+- `title` and `section` (`research` or `media`) are required. `image` is the large picture at the top. `source` and `sourceLabel` make the button to the original (paper, interview, article). `credit` is the author line under the title. If `description` is missing, the first 155 characters of the text are used.
+- To link a card to its post, set `"post": "<file name without .md>"` on the item in `research.json` or `media.json`. Cards with a `post` open the post page; cards without one link straight to their outside `link`.
+- **Adding a new paper or media item = a new card at the top of the JSON list + a new `.md` file.** Ask Irena for the text (abstract, blurb) and the link; never write a fake abstract.
+- Keep quoted or published text (paper abstracts, press quotes) exactly as published, including its spelling and punctuation. The writing-style rules below apply to Irena's own words.
+- The page for each post (`research/<name>/index.html`, `media/<name>/index.html`) is generated automatically by `src/lib/posts-build.ts` when the site builds or `npm run dev` starts. Those generated folders are in `.gitignore`. Don't create or edit them by hand.
+- While `npm run dev` is running, editing a post updates the page. A brand-new post file is picked up straight away too; if it isn't, restart `npm run dev`.
 
 ## Writing style
 
@@ -118,5 +145,6 @@ From the move off WordPress (October 2026):
 - Confirm `public/cv.pdf` (August 2026) is her latest CV. It includes her mobile number.
 - Not on the old site but in her CV, so possible additions: Psyche article, two podcasts (Brain Space Time, The Encourager), Pint of Science, a publications list.
 - The 404 page is Netlify's plain default.
-- Old post pages (blog): each research and media item had its own page on WordPress with the full text (for example the Leverhulme essay, paper abstracts, and a figure from the Current Biology paper, `public/images/research-time-within-heartbeat-figure.png`). The new site links straight to the outside source instead, and old post addresses redirect to /research/ or /media/. The full texts are in `content-archive/wordpress-posts.md` if post pages or a blog are added.
+- The short descriptions (for Google and link previews) in the three research posts were written during the move. Ask Irena to check them.
+- A separate Blog page for writing not tied to a paper or media item was discussed but not built. It could reuse the posts setup with a new `section: blog`.
 - Images in `public/images/` total about 5 MB and could be resized and compressed. `portrait-casual.jpg` (1.6 MB) isn't used anywhere.

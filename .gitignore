@@ -4,3 +4,7 @@ dist
 *.local
 backup
 wordpress-backup
+
+# Post pages are generated from src/content/posts/*.md
+/research/*/
+/media/*/

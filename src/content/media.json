@@ -5,7 +5,8 @@
     "date": "2025-05",
     "summary": "Why does one hour drag by, but a year can pass in a flash? And how does our relationship with time influence our behaviour? This hour, I talk about my recent TEDx talk on how the heart can shape how we experience time.",
     "image": "/images/media-npr-ted-radio-hour.jpg",
-    "link": "https://www.npr.org/2025/05/16/g-s1-66582/how-your-heartbeat-shapes-your-sense-of-time"
+    "link": "https://www.npr.org/2025/05/16/g-s1-66582/how-your-heartbeat-shapes-your-sense-of-time",
+    "post": "npr-ted-radio-hour-how-we-experience-time"
   },
   {
     "title": "TEDx Berlin: Does your heartbeat shape your sense of time?",
@@ -13,7 +14,8 @@
     "date": "2024-02",
     "summary": "Do you ever feel like time slows down when you're bored but flies when you're having fun? Let's explore the ways your brain and heart shape your perception of time, revealing how your heartbeat doesn't just keep you alive: it also influences whether moments feel fleeting or stretched.",
     "image": "/images/media-tedx-berlin.png",
-    "link": "https://www.ted.com/talks/irena_arslanova_does_your_heartbeat_shape_your_sense_of_time"
+    "link": "https://www.ted.com/talks/irena_arslanova_does_your_heartbeat_shape_your_sense_of_time",
+    "post": "tedx-berlin"
   },
   {
     "title": "How the heart can change our perception of time",
@@ -21,7 +23,8 @@
     "date": "2023-07",
     "summary": "Two new studies have found that our heartbeat contributes to feeling like passing moments fly or drag. Experiments reported in Current Biology discovered that our perception of time passage expands and contracts within each heartbeat. I joined CBS News to break down the findings.",
     "image": "/images/media-cbs-heart-time.png",
-    "link": "https://youtu.be/Fkf5kcigzfU"
+    "link": "https://youtu.be/Fkf5kcigzfU",
+    "post": "how-the-heart-can-change-our-perception-of-time"
   },
   {
     "title": "The heart can sway our perception of time",
@@ -29,7 +32,8 @@
     "date": "2023-06",
     "summary": "Scientific American on two new studies suggesting our heartbeat can cause passing moments to drag or fly, including our Current Biology paper.",
     "image": "/images/media-scientific-american.jpeg",
-    "link": "https://www.scientificamerican.com/article/the-heart-can-sway-our-perception-of-time/"
+    "link": "https://www.scientificamerican.com/article/the-heart-can-sway-our-perception-of-time/",
+    "post": "the-heart-can-sway-our-perception-of-time"
   },
   {
     "title": "People can tell how fast your heart is beating just by looking at you",
@@ -37,6 +41,7 @@
     "date": "2022-03",
     "summary": "Vice on our study replicating the finding that people can guess another person's heart rate just by looking at them, and how that relates to how well they sense their own heartbeat.",
     "image": "/images/media-vice-heartbeat.jpg",
-    "link": "https://www.vice.com/en/article/people-can-tell-how-fast-your-heart-is-beating-just-by-looking-at-you/"
+    "link": "https://www.vice.com/en/article/people-can-tell-how-fast-your-heart-is-beating-just-by-looking-at-you/",
+    "post": "people-can-tell-how-fast-your-heart-is-beating-just-by-looking-at-you"
   }
 ]
