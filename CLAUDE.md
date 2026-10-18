@@ -117,7 +117,7 @@ Work locally first. Netlify's free plan has a limited monthly build allowance, a
 1. Make the change and check it on the local preview (`npm run dev`).
 2. Run `npm run build`. **Never commit or push a broken build**: if it fails, fix it or explain what's wrong.
 3. Save a version locally: commit with a short, plain message describing the change for a human ("Add new paper on heartbeat and attention"). Several small commits are fine.
-4. **Don't push after every change.** Push to `main` only when Irena or Alex says they're happy and asks to publish ("publish it", "put it live", "push"). One push publishes all the saved versions together.
+4. **Don't push after every change.** Push to `main` only when Irena or Alex explicitly asks to deploy: "deploy it", "make it live", "publish it", "put it live", "push". Then follow the `publish` skill (`.claude/skills/publish/SKILL.md`). One push publishes all the saved versions together. "Looks good" on its own is not a request to deploy.
 5. After pushing, Netlify publishes automatically about a minute later. Tell Irena it's live and give her the page link.
 
 When talking to Irena: "I've saved this version on your computer. It isn't on the public site yet. Say 'publish' when you're happy and I'll put everything live."
