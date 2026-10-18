@@ -5,7 +5,7 @@ import { ChatView } from "./chat/ChatView";
 import { useConversation } from "./chat/useConversation";
 import { Feed } from "./Feed";
 import { saveResponse } from "./save";
-import type { Answers, Condition, ExperimentResponse, FeedResult } from "./types";
+import type { Answers, Condition, ExperimentResponse, FeedResult, ScrollSettings } from "./types";
 
 /** Condition and duration can be forced from the address bar for testing: ?condition=decision&seconds=10 */
 function readSettings() {
@@ -174,7 +174,7 @@ export function FeedTimeExperiment() {
         conditionAssignedBy: settings.conditionAssignedBy,
         testMode: settings.testMode,
         plannedSeconds: settings.plannedSeconds,
-        scrollPixelsPerSecond: config.scrollPixelsPerSecond,
+        scroll: config.scroll as ScrollSettings,
         feed,
         answers,
         timings: { ...timings.current },
@@ -208,7 +208,7 @@ export function FeedTimeExperiment() {
     <>
       <h1 className="sr-only">{config.title}</h1>
       <ChatView entries={chat.entries} typing={chat.typing} prompt={chat.prompt} onAnswer={chat.answer}>
-        {showFeed && <Feed durationSeconds={settings.plannedSeconds} pixelsPerSecond={config.scrollPixelsPerSecond} onDone={onFeedDone} />}
+        {showFeed && <Feed durationSeconds={settings.plannedSeconds} scroll={config.scroll as ScrollSettings} onDone={onFeedDone} />}
       </ChatView>
     </>
   );

@@ -3,33 +3,43 @@ import { BookmarkIcon, HeartIcon, MapPinIcon, MessageCircleIcon, SendIcon } from
 
 import { Card } from "@/components/ui/card";
 import posts from "@/content/experiments/feed-posts.json";
-import type { FeedResult } from "./types";
+import type { FeedResult, ScrollSettings } from "./types";
 
 type Post = (typeof posts)[number];
 
 type Props = {
   durationSeconds: number;
-  pixelsPerSecond: number;
+  scroll: ScrollSettings;
   onDone: (result: FeedResult) => void;
 };
 
 /** Rough height of one post card at the feed's width, used only to decide how many to render. */
-const APPROX_CARD_HEIGHT = 640;
+const APPROX_CARD_HEIGHT = 660;
+/** Gap above a post when the feed rests on it, in CSS pixels. */
+const REST_OFFSET = 16;
 
 const formatLikes = (n: number) => n.toLocaleString("en-GB");
+const easeInOut = (t: number) => (t < 0.5 ? 2 * t * t : 1 - (2 - 2 * t) ** 2 / 2);
 
 /**
- * An Instagram-style feed that scrolls by itself at a constant speed for a fixed time.
- * It covers the whole page while it runs. The participant cannot scroll, pause or click anything.
+ * An Instagram-style feed that moves by itself for a fixed time and covers the whole page
+ * while it runs. In "stepped" mode it rests on one post, flicks to the next, rests again,
+ * like a person scrolling. In "continuous" mode it glides at a constant speed.
+ * The participant cannot scroll, pause or click anything.
  */
-export function Feed({ durationSeconds, pixelsPerSecond, onDone }: Props) {
+export function Feed({ durationSeconds, scroll, onDone }: Props) {
   const scroller = useRef<HTMLDivElement>(null);
+  const cards = useRef<(HTMLDivElement | null)[]>([]);
 
-  // Repeat the pool, in its fixed order, until there is enough to scroll through.
+  // Repeat the pool, in its fixed order, until there is enough to get through the time.
   const items = useMemo(() => {
-    const needed = Math.ceil((durationSeconds * pixelsPerSecond) / APPROX_CARD_HEIGHT) + 4;
+    const perPost =
+      scroll.mode === "stepped"
+        ? scroll.dwellSeconds.reduce((a, b) => a + b, 0) / scroll.dwellSeconds.length + scroll.flickMs / 1000
+        : APPROX_CARD_HEIGHT / scroll.pixelsPerSecond;
+    const needed = Math.ceil(durationSeconds / perPost) + 3;
     return Array.from({ length: needed }, (_, i) => ({ ...posts[i % posts.length], key: i }));
-  }, [durationSeconds, pixelsPerSecond]);
+  }, [durationSeconds, scroll]);
 
   // Lock the page behind the feed so nothing else can be scrolled to.
   useEffect(() => {
@@ -51,6 +61,27 @@ export function Feed({ durationSeconds, pixelsPerSecond, onDone }: Props) {
     };
     document.addEventListener("visibilitychange", onVisibility);
 
+    // Stepped mode: where each post sits, and when each rest starts.
+    const tops = cards.current.map((c) => Math.max(0, (c?.offsetTop ?? 0) - REST_OFFSET));
+    const starts: number[] = [0];
+    for (let i = 0; i < tops.length; i++) {
+      starts.push(starts[i] + scroll.dwellSeconds[i % scroll.dwellSeconds.length] * 1000 + scroll.flickMs);
+    }
+    let restedOn = 1;
+
+    const positionAt = (elapsed: number) => {
+      if (scroll.mode === "continuous") return (elapsed / 1000) * scroll.pixelsPerSecond;
+      let i = 0;
+      while (i + 1 < starts.length && starts[i + 1] <= elapsed) i++;
+      restedOn = Math.max(restedOn, i + 1);
+      const dwell = scroll.dwellSeconds[i % scroll.dwellSeconds.length] * 1000;
+      const into = elapsed - starts[i] - dwell;
+      const from = tops[i] ?? 0;
+      const to = tops[i + 1] ?? from;
+      if (into <= 0) return from;
+      return from + (to - from) * easeInOut(Math.min(1, into / scroll.flickMs));
+    };
+
     let frame = 0;
     let start = 0;
     const durationMs = durationSeconds * 1000;
@@ -59,7 +90,7 @@ export function Feed({ durationSeconds, pixelsPerSecond, onDone }: Props) {
       if (cancelled) return;
       if (!start) start = now;
       const elapsed = now - start;
-      el.scrollTop = (elapsed / 1000) * pixelsPerSecond;
+      el.scrollTop = positionAt(elapsed);
       if (elapsed < durationMs) {
         frame = requestAnimationFrame(tick);
         return;
@@ -71,6 +102,7 @@ export function Feed({ durationSeconds, pixelsPerSecond, onDone }: Props) {
         scrolledPixels: el.scrollTop,
         hiddenDuringTask: hidden,
         postOrder: items.map((p: Post & { key: number }) => p.id),
+        postsShown: scroll.mode === "stepped" ? restedOn : items.length,
       });
     };
     frame = requestAnimationFrame(tick);
@@ -80,7 +112,7 @@ export function Feed({ durationSeconds, pixelsPerSecond, onDone }: Props) {
       cancelAnimationFrame(frame);
       document.removeEventListener("visibilitychange", onVisibility);
     };
-  }, [durationSeconds, pixelsPerSecond, items, onDone]);
+  }, [durationSeconds, scroll, items, onDone]);
 
   return (
     <div className="fixed inset-0 z-50 flex justify-center overflow-hidden bg-background" role="region" aria-label="Social media feed, scrolling automatically">
@@ -94,8 +126,15 @@ export function Feed({ durationSeconds, pixelsPerSecond, onDone }: Props) {
         aria-hidden="true"
       >
         <div className="flex flex-col gap-4 py-4 select-none">
-          {items.map((post) => (
-            <FeedPost key={post.key} post={post} />
+          {items.map((post, i) => (
+            <div
+              key={post.key}
+              ref={(node) => {
+                cards.current[i] = node;
+              }}
+            >
+              <FeedPost post={post} />
+            </div>
           ))}
         </div>
       </div>

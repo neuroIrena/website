@@ -2,7 +2,21 @@
   "title": "Scrolling through time",
   "shortTitle": "Social media feed study",
   "durationSeconds": 45,
-  "scrollPixelsPerSecond": 120,
+  "scroll": {
+    "mode": "stepped",
+    "dwellSeconds": [
+      2.4,
+      2.9,
+      2.2,
+      3.1,
+      2.6,
+      2.3,
+      2.8,
+      2.5
+    ],
+    "flickMs": 400,
+    "pixelsPerSecond": 120
+  },
   "researcher": "Dr Irena Arslanova",
   "supervisorOrPi": "",
   "institution": "Department of Psychology, Royal Holloway, University of London",
